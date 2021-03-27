@@ -1,0 +1,9 @@
+
+.MenuOptions .active{
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+
+.login-page{
+    background-color: #FFFFFF !important;
+}
