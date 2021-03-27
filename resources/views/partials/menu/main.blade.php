@@ -28,7 +28,7 @@
     @endhasanyrole --}}
 
     <li class="nav-item">
-      <a href="" class="nav-link">
+      <a href="{{url('brands')}}" class="nav-link">
         <i class="fab fa-uber"></i>
         <p class="text">Marcas</p>
       </a>
