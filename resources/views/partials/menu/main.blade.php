@@ -35,7 +35,7 @@
     </li>
 
     <li class="nav-item">
-      <a href="" class="nav-link">
+      <a href="{{url('categories')}}" class="nav-link">
         <i class="fab fa-uber"></i>
         <p class="text">Categorías</p>
       </a>

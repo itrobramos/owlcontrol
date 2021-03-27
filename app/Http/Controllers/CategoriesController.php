@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,13 +11,13 @@ use Illuminate\Support\Facades\Auth;
 class CategoriesController extends Controller
 {
     public function __construct(){
-        $this->middleware(function ($request, $next) {
-            $userSession = Auth::user();
-            if(!$this->checkRoleRoutePermission($userSession)){
-                return response()->view('errors.error');
-            }
-            return $next($request);
-        });
+        // $this->middleware(function ($request, $next) {
+        //     $userSession = Auth::user();
+        //     if(!$this->checkRoleRoutePermission($userSession)){
+        //         return response()->view('errors.error');
+        //     }
+        //     return $next($request);
+        // });
     }
     /**
      * Display a listing of the resource.
@@ -25,7 +26,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('clientId', Auth::user()->clientId)->orderBy('name','asc')->paginate(20);
+        $categories = Category::orderBy('brandId','desc')->orderBy('name','asc')->paginate(20);
         return view('categories.index',compact('categories'));
     }
 
@@ -36,7 +37,9 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        $brands = Brand::orderBy('name','asc')->paginate(20);
+        $data['brands'] = $brands;
+        return view('categories.create', $data);
     }
 
     /**
@@ -49,11 +52,17 @@ class CategoriesController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
+            'brand' => 'required'
         ]);
 
         $category = new Category();
         $category->name = $request->name;
-        $category->clientId = Auth::user()->clientId;
+        $category->brandId = $request->brand;
+
+        if(isset($request->parentCategory)){
+            $category->parentCategoryId = $request->parentCategory;
+        }
+        
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension(); // getting image extension
@@ -86,8 +95,13 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
+        $brands = Brand::orderBy('name','asc')->paginate(20);
         $category = Category::findOrFail($id);
-        return view('categories.edit',compact('category'));
+
+        $data['brands'] = $brands;
+        $data['category'] = $category;
+
+        return view('categories.edit',$data);
     }
 
     /**
@@ -105,7 +119,12 @@ class CategoriesController extends Controller
 
         $category = Category::findOrFail($id);
         $category->name = $request->name;
-        $category->clientId = Auth::user()->clientId;
+        $category->brandId = $request->brand;
+
+        if(isset($request->parentCategory)){
+            $category->parentCategoryId = $request->parentCategory;
+        }
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension(); // getting image extension
@@ -127,5 +146,19 @@ class CategoriesController extends Controller
     {
         Category::destroy($id);
         return redirect('categories')->with('success','Categoría eliminada correctamente.');
+    }
+
+    public function getCategoriesByBrand($id){
+        $categories = Category::where('brandId',$id)->get();
+
+        $categoriesResponse = [];
+        foreach ($categories as $category) {
+            $categoriesResponse[] = ["id" => $category->id, "name" => $category->name];
+        }
+
+        return [
+            'statusCode' => 100,
+            'data' => $categoriesResponse
+        ];
     }
 }

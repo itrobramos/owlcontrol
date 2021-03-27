@@ -126,4 +126,18 @@ class BrandsController extends Controller
         Brand::destroy($id);
         return redirect('brands')->with('success','Marca eliminada correctamente.');
     }
+
+    public function getBrands(){
+        $brands = Brand::get();
+
+        $brandsResponse = [];
+        foreach ($brands as $brand) {
+            $brandsResponse[] = ["id" => $brand->id, "name" => $brand->name];
+        }
+
+        return [
+            'statusCode' => 100,
+            'data' => $brandsResponse
+        ];
+    }
 }

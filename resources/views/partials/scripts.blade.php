@@ -143,10 +143,10 @@ $(function(){
         });
     })
 
-    $(function(){
-        getGarrito()
-        getSucursales();
-    })
+    // $(function(){
+    //     getGarrito()
+    //     getSucursales();
+    // })
 })
 
 function getGarrito(){
