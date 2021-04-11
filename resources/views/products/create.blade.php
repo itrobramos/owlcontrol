@@ -29,23 +29,15 @@
         <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data" >
 
            
-
-
-
             <div class="col-md-12">
                 <div class="card">
-
-
                   <div class="card-header p-2">
                     <ul class="nav nav-pills">
                       <li class="nav-item"><a class="nav-link active" href="#information" data-toggle="tab">Información</a></li>
                       <li class="nav-item"><a class="nav-link" href="#prices" data-toggle="tab">Precios</a></li>
-                      <li class="nav-item"><a class="nav-link" href="#ingredients" data-toggle="tab">Ingredientes</a></li>
-                      <li class="nav-item"><a class="nav-link" href="#variants" data-toggle="tab">Variantes</a></li>
                       <li class="nav-item"><a class="nav-link" href="#gallery" data-toggle="tab">Galería</a></li>
                     </ul>
                   </div>
-
 
                   <div class="card-body">
                     <div class="tab-content">
@@ -67,12 +59,27 @@
                         </div>
 
                         <div class="row">
+                            <div class="form-group col-4">
+                                <label for="exampleInputEmail1">Código</label>
+                                <input name="code" class="form-control" value="{{ old('code')}}">
+                            </div>      
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="exampleInputEmail1">Marca</label>
+                                <select name="brandId" id="brand" class="form-control">
+                                    @foreach ($brands as $b=>$item)
+                                        <option value="{{ $item->id }}">{{ $item->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>    
+                        </div>
+
+                        <div class="row">
                             <div class="form-group col-6">
                                 <label for="exampleInputEmail1">Categoría</label>
-                                <select name="categoryId" id="" class="form-control">
-                                    @foreach ($categories as $c=>$item)
-                                        <option value="{{ $c }}">{{ $item}}</option>
-                                    @endforeach
+                                <select name="categoryId" id="category" class="form-control">
                                 </select>
                             </div>    
                         </div>
@@ -81,109 +88,10 @@
                       </div>
                       
                       <div class="tab-pane" id="prices">
-                            @foreach($client->platforms as $platform)
-                                
-                            <div class="row">
-                                <div class="form-group col-4">
-                                    <label for="exampleInputEmail1">{{$platform->name}}</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                          <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
-                                        </div>
-                                        <input type="number" name="prices[{{$platform->id}}]" class="form-control"  im-insert="true">
-                                      </div>
-                                </div>      
-                            </div>
-
-                            @endforeach
-                      </div>
-
-                      <div class="tab-pane" id="ingredients">
-
-                        <label for="exampleInputEmail1">Agregar Ingrediente</label>
-                        <div class="row">
-                            <div class="form-group col-4">
-                                
-                                <select id="cmbIngredients" class="form-control">
-                                    @foreach ($ingredients as $i=>$item)
-                                        <option value="{{ $i }}">{{ $item}}</option>
-                                    @endforeach
-                                </select>
-
-                            </div>    
-                            <div class="col-2">
-                                <button class="btn btn-sm btn-success" id="btnAddIngredient" type="button">+</button>
-                            </div>
-                        </div>
-
-
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                              <tr>
-                                <th>Nombre</th>
-                                <th>Cantidad</th>
-                                <th>Unidad Medida</th>
-                                <th>Notas</th>
-                                <th></th>
-                              </tr>
-                            </thead>
-                            <tbody id="rowsingredients">
-                               
-                            </tbody>
-                          </table>
-
+                            
 
                       </div>
-                      
-
-                      <div class="tab-pane" id="variants">
-
-                        <label for="exampleInputEmail1">Agregar Variantes</label>
-                        <div class="row">
-                            <div class="form-group col-4">
-                                
-                                <select id="cmbVariants" class="form-control" onchange="loadOptions(this)";>
-                                    @foreach ($variants as $variant)
-                                        <option value="{{ $variant->id }}">{{ $variant->name}}</option>
-                                    @endforeach
-                                </select>
-
-                            </div>    
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-4">
-                                
-                                <select id="cmbOptions" class="form-control">
-                                
-                                    @foreach ($variants[0]  ->options as $option)
-                                        <option value="{{ $option->id }}">{{ $option->name}}</option>
-                                    @endforeach
-                                
-                                </select>
-
-                            </div>    
-                            <div class="col-2">
-                                <button class="btn btn-sm btn-success" id="btnAddVariant" type="button">+</button>
-                            </div>
-                        </div>
-
-
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                              <tr>
-                                <th>Variante</th>
-                                <th>Opción</th>
-                                <th>Costo Extra</th>
-                                <th></th>
-                              </tr>
-                            </thead>
-                            <tbody id="rowsoptions">
-                               
-                            </tbody>
-                          </table>
-                      </div>
-                      
+               
 
                       <div class="tab-pane" id="gallery">
 
@@ -226,131 +134,69 @@
 @section('extra-js')
 <script>
     $(function(){
-        $("#btnAddIngredient").click(function(){
+       
 
-            var id = $("#cmbIngredients").val();
-            var ingredientText = $("#cmbIngredients option:selected").text();
+        $('#brand').change(function(e){
 
-            if(id == null || ingredientText == null){
-                return;
-            }
+        var id = $('#brand').val();
 
-            var timestamp = Date.now();
-            var html = getIngredientTemplate(timestamp, ingredientText, id)
-            $("#rowsingredients").append(html);
-            
-            $("#cmbIngredients option:selected").remove();            
-        });
+            $.ajax({
+                type: "GET",
+                url: "/categories/getCategories/"+id,
+                data: {} ,
+                dataType: 'json',
+                success: function (data) {
+                        e.preventDefault();
+                        $('#category').html("");
+                            var html;
+                            $.each(data.data,function(k,category){
+                                html += `<option value="${category.id}"> ${category.name} </option>`; 
+                            })
+                            $('#category').append(html);
+                },
+                error: function () {
+                    alert(2);
+                }
+            });
 
-        $("#btnAddVariant").click(function(){
+            $.ajax({
+                type: "GET",
+                url: "/getPriceTags/"+id,
+                data: {} ,
+                dataType: 'json',
+                success: function (data) {
+                        e.preventDefault();
+                        $('#prices').html("");
+                            var html;
+                            $.each(data.data,function(k,priceTag){
+                                html += `                            
+                                        <div class="row">
+                                            <div class="form-group col-4">
+                                                <label for="exampleInputEmail1"> ${priceTag['name']} </label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                                    </div>
+                                                    <input type="number" name="prices[${priceTag['id']}]" class="form-control" step="any"  im-insert="true">
+                                                </div>
+                                            </div>      
+                                        </div> `; 
+                            })
+                            $('#prices').append(html);
+                },
+                error: function () {
+                    alert(2);
+                }
+            });
 
-            var id = $("#cmbOptions").val();
-            var variantId = $("#cmbVariants").val();
-
-            var OptionText = $("#cmbOptions option:selected").text();
-            var VariantText = $("#cmbVariants option:selected").text();
-
-            if(id == null || OptionText == null){
-                return;
-            }
-
-            var timestamp = Date.now();
-            var html = getOptionTemplate(timestamp, variantId, VariantText, OptionText, id)
-            $("#rowsoptions").append(html);
-            $("#cmbOptions option:selected").remove();            
-        });
+        })
 
     })
 
-    function loadOptions(x){
-        var id = $("#cmbVariants").val();
 
-        $("#cmbOptions").html("");
+ 
 
-        @foreach($variants as $variant)
-            if({{$variant->id}} == id){
-                @foreach($variant->options as $option)
-                    $("#cmbOptions").append(" <option value='{{ $option->id }}'>{{ $option->name}}</option>");
-                @endforeach
-            }
-        @endforeach
-    }
 
-    function getIngredientTemplate(i, name, id){
-        var html = `
-                <tr id="${i}">
-                    <td id='ingredient${i}'><input type="hidden" class="form-control" id="ingredientId${i}" name="ingredient[${i}][ingredientId]" value="${id}">${name}</td>
-                    <td><input type="number" class="form-control" name="ingredient[${i}][quantity]" id="quantity_${i}"></td>
-                    <td>
-                        <select id="measurementUnits" name="ingredient[${i}][measurementUnitId]" class='form-control'>
-                            @foreach ($measurementUnits as $i=>$item)
-                                <option value="{{$i}}">{{$item}}</option>
-                            @endforeach
-                        </select>
-                    </td>
-                    
-                    <td>
-                        <input type="text" class="form-control" name="ingredient[${i}][notes]" id="notes_${i}">
-                    </td>
-                    <td>
-                        <div data-repeater-delete="" onclick="deletetemplate(${i})"
-                                class="btn-md btn btn-danger m-btn m-btn--icon m-btn--pill">
-                            <span>
-                                <i class="fa fa-trash"></i>
-                            </span>
-                        </div>
-                    </td>
-                </tr>`;
-
-        return html;
-    }
-
-    function getOptionTemplate(i, variantId, variante, option, optionId){
-        var html = `
-                <tr id="${i}">
-                    <td id='variante${i}'>${variante}<input type="hidden" class="form-control" id="variantId${i}" value="${variantId}"></td>
-                    <td id='option${i}'><input type="hidden" class="form-control" id="optionId${i}" name="option[${i}][optionId]" value="${optionId}">${option}</td>
-            
-                    <td><input type="number" step="any" class="form-control" name="option[${i}][extraCost]" id="extraCost_${i}"></td>
-                    
-                    <td>
-                        <div data-repeater-delete="" onclick="deletetemplateoption(${i})"
-                                class="btn-md btn btn-danger m-btn m-btn--icon m-btn--pill">
-                            <span>
-                                <i class="fa fa-trash"></i>
-                            </span>
-                        </div>
-                    </td>
-                </tr>`;
-
-        return html;
-    }
-
-    function deletetemplate(i){
-        var RecoveredIngredientId =  $("#ingredientId" + i).val(); 
-        var RecoveredIngredient = $("#ingredient" + i).text();
-
-        var o = new Option(RecoveredIngredient, RecoveredIngredientId);
-        $(o).html(RecoveredIngredient);
-        $("#cmbIngredients").append(o);
-
-        $("#" + i).remove();
-    }
-
-    function deletetemplateoption(i){
-        var Variantid = $("#cmbVariants").val();
-        var RecoveredOptionId =  $("#optionId" + i).val(); 
-        var RecoveredVariantId =  $("#variantId" + i).val(); 
-        var RecoveredOption = $("#option" + i).text();
-
-        if(Variantid == RecoveredVariantId){
-            var o = new Option(RecoveredOption, RecoveredOptionId);
-            $(o).html(RecoveredOption);
-            $("#cmbOptions").append(o);
-        }
-
-        $("#" + i).remove();
-    }
 
 </script>
 @endsection

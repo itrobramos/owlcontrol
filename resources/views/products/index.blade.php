@@ -14,9 +14,7 @@
         
 
         <div class="card-tools">
-            @hasrole(['admin|gerente'])
             <a href="{{ route('products.create') }} " class="btn btn-primary">Agregar</a>
-            @endhasrole
         </div>
     </div>
 
@@ -25,27 +23,26 @@
         <table class="table table-striped table-bordered">
             <thead>
               <tr>
-                <th>Nombre</th>
+                <th>Marca</th>
                 <th>Categoría</th>
-                <th>Fecha Creación</th>
+                <th>Nombre</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
                 @foreach ($products as $c)
                     <tr>
-                        <td>{{$c->name}}</td>
+                        <td>{{$c->category->brand->name}}</td>
                         <td>{{$c->category->name}}</td>
-                        <td>{{$c->created_at}}</td>
+                        <td>{{$c->name}}</td>
                         <td>
 
-                            <a class="btn btn-primary btn-sm" href="{{ route('products.show', ['id'=>$c->id]) }}">
+                            {{-- <a class="btn btn-primary btn-sm" href="{{ route('products.show', ['id'=>$c->id]) }}">
                                 <i class="fas fa-folder">
                                 </i>
                                 Detalle
-                            </a>
+                            </a> --}}
 
-                            @hasrole(['admin|gerente'])
                             <a class="btn btn-info btn-sm" href="{{ route('products.edit', ['id'=>$c->id]) }}">
                                 <i class="fas fa-pencil-alt">
                                 </i>
@@ -64,7 +61,7 @@
                                     </i>
                                     Eliminar
                             </a>
-                            @endhasrole
+      
                         </td>
                     </tr>
                 @endforeach

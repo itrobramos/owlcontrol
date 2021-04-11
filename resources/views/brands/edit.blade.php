@@ -46,6 +46,28 @@
               </div>
   
 
+              @if(isset($brand->priceTags) && $brand->priceTags->count() > 0)
+                  @foreach($brand->priceTags as $priceTag)
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Tag precio</label>
+                      <input name="pricetag[{{$priceTag->id}}][]" class="form-control" value ="{{$priceTag->name}}">
+                    </div>
+                  @endforeach
+              @else
+              
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Tag precio</label>
+                  <input name="pricetag[]" class="form-control" value ="">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Tag precio</label>
+                  <input name="pricetag[]" class="form-control" value ="">
+                </div>
+                    
+              @endif
+
+  
+
             <div class="row">
                 <div class="col-12">
                     <a href="{{ route('brands.index')  }}" class="btn btn-danger">Cancelar</a>

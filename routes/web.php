@@ -32,9 +32,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/brands/edit/{id}','BrandsController@edit')->name('brands.edit');
     Route::post('/brands/edit/{id}','BrandsController@update')->name('brands.update');
     Route::delete('/brands/destroy/{id}','BrandsController@destroy')->name('brands.destroy');
-    Route::get('getBrands','BrandsController@getBrands');//AJAX
-    
-
+    Route::get('getBrands','BrandsController@getBrands');//AJAX 
+    Route::get('getPriceTags/{id}','BrandsController@getPriceTags');//AJAX 
 
 
     Route::get('categories','CategoriesController@index')->name('categories.index');
@@ -45,6 +44,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/categories/edit/{id}','CategoriesController@update')->name('categories.update');
     Route::delete('/categories/destroy/{id}','CategoriesController@destroy')->name('categories.destroy');
 
+
+    Route::get('products','ProductsController@index')->name('products.index');
+    Route::get('/products/create','ProductsController@create')->name('products.create');
+    Route::post('/products/create','ProductsController@store')->name('products.store');
+    Route::get('/products/edit/{id}','ProductsController@edit')->name('products.edit');
+    Route::post('/products/edit/{id}','ProductsController@update')->name('products.update');
+    Route::delete('/products/destroy/{id}','ProductsController@destroy')->name('products.destroy');
 
 
 

@@ -43,8 +43,20 @@
                     <span class="input-group-text">Upload</span>
                   </div>
                 </div>
-              </div>
+            </div>
   
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Tag precio</label>
+              <input name="pricetag[]" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Tag precio 2</label>
+              <input name="pricetag[]" class="form-control">
+            </div>
+
+
            
             <div class="row">
                 <div class="col-12">
