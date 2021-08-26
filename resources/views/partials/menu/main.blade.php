@@ -48,6 +48,13 @@
       </a>
     </li>
 
+    <li class="nav-item">
+      <a href="{{url('menu')}}" class="nav-link">
+        <i class="fab fa-uber"></i>
+        <p class="text">Menu</p>
+      </a>
+    </li>
+
 
 
     <li class="nav-item mt-5">
