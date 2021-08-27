@@ -29,8 +29,15 @@
 
 
     <li class="nav-item">
-      <a href="{{url('product_types')}}" class="nav-link">
+      <a href="{{url('box_types')}}" class="nav-link">
         <i class="fas fa-box"></i>
+        <p class="text">Tipos de Caja</p>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="{{url('product_types')}}" class="nav-link">
+        <i class="fas fa-candy-cane"></i>
         <p class="text">Tipos de Productos</p>
       </a>
     </li>

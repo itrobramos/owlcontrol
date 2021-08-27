@@ -21,7 +21,7 @@
   <div class="login-logo">
     
 
-    <img src="{{ asset('images/logo.png') }}" alt="" style="width:260px">
+    <img src="{{ asset('images/minilogo.png') }}" alt="" style="width:180px">
   </div>
   <!-- /.login-logo -->
   <div class="card">

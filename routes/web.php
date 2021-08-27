@@ -25,6 +25,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth'])->group(function () {
 
     
+    Route::get('box_types','BoxTypeController@index')->name('box_types.index');
+    Route::get('/box_types/create','BoxTypeController@create')->name('box_types.create');
+    Route::post('/box_types/create','BoxTypeController@store')->name('box_types.store');
+    Route::get('/box_types/edit/{id}','BoxTypeController@edit')->name('box_types.edit');
+    Route::post('/box_types/edit/{id}','BoxTypeController@update')->name('box_types.update');
+    Route::delete('/box_types/destroy/{id}','BoxTypeController@destroy')->name('box_types.destroy');
   
     Route::get('product_types','ProductTypeController@index')->name('product_types.index');
     Route::get('/product_types/create','ProductTypeController@create')->name('product_types.create');
@@ -32,7 +38,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/product_types/edit/{id}','ProductTypeController@edit')->name('product_types.edit');
     Route::post('/product_types/edit/{id}','ProductTypeController@update')->name('product_types.update');
     Route::delete('/product_types/destroy/{id}','ProductTypeController@destroy')->name('product_types.destroy');
-
 
     Route::get('suppliers','SupplierController@index')->name('suppliers.index');
     Route::get('/suppliers/create','SupplierController@create')->name('suppliers.create');
