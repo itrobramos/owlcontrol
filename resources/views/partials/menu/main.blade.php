@@ -34,6 +34,13 @@
       </a>
     </li>
 
+    <li class="nav-item">
+      <a href="{{url('thematics')}}" class="nav-link">
+        <i class="fab fa-uber"></i>
+        <p class="text">Temáticas</p>
+      </a>
+    </li>
+
     <li class="nav-item mt-5">
         <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
           <i class="fas fa-sign-out-alt"></i>

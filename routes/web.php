@@ -34,6 +34,13 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/suppliers/destroy/{id}','SupplierController@destroy')->name('suppliers.destroy');
 
 
+    Route::get('thematics','ThematicController@index')->name('thematics.index');
+    Route::get('/thematics/create','ThematicController@create')->name('thematics.create');
+    Route::post('/thematics/create','ThematicController@store')->name('thematics.store');
+    Route::get('/thematics/edit/{id}','ThematicController@edit')->name('thematics.edit');
+    Route::post('/thematics/edit/{id}','ThematicController@update')->name('thematics.update');
+    Route::delete('/thematics/destroy/{id}','ThematicController@destroy')->name('thematics.destroy');
+
     Route::get('getBrands','BrandsController@getBrands');//AJAX 
     Route::get('getPriceTags/{id}','BrandsController@getPriceTags');//AJAX 
 

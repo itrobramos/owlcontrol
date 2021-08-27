@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Supplier;
+use App\Models\Thematic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class SupplierController extends Controller
+class ThematicController extends Controller
 {
     public function __construct(){
         // $this->middleware(function ($request, $next) {
@@ -25,8 +25,8 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::orderBy('name')->paginate(20);
-        return view('suppliers.index',compact('suppliers'));
+        $objects = Thematic::orderBy('name')->paginate(20);
+        return view('thematics.index',compact('objects'));
     }
 
     /**
@@ -36,7 +36,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('suppliers.create');
+        return view('thematics.create');
     }
 
     /**
@@ -51,22 +51,22 @@ class SupplierController extends Controller
             'name' => 'required',
         ]);
 
-        $supplier = new Supplier();
-        $supplier->name = $request->name;
+        $object = new Thematic();
+        $object->name = $request->name;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension(); // getting image extension
             $filename =time().'.'.$extension;
-            $file->move('suppliersUploads/images/', $filename);
-            $supplier->imageUrl = 'suppliersUploads/images/'.$filename;
+            $file->move('Uploads/images/', $filename);
+            $object->imageUrl = 'Uploads/images/'.$filename;
         }
 
-        $supplier->save();
+        $object->save();
 
 
 
 
-        return redirect('suppliers')->with('success','Proveedor creado correctamente.');
+        return redirect('thematics')->with('success','Creado correctamente.');
     }
 
     /**
@@ -88,8 +88,8 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        $supplier = Supplier::findOrFail($id);
-        return view('suppliers.edit',compact('supplier'));
+        $object = Thematic::findOrFail($id);
+        return view('thematics.edit',compact('object'));
     }
 
     /**
@@ -105,18 +105,18 @@ class SupplierController extends Controller
             'name' => 'required',
         ]);
 
-        $supplier = Supplier::findOrFail($id);
-        $supplier->name = $request->name;
+        $object = Thematic::findOrFail($id);
+        $object->name = $request->name;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension(); // getting image extension
             $filename =time().'.'.$extension;
-            $file->move('suppliersUploads/images/', $filename);
-            $supplier->imageUrl = 'suppliersUploads/images/'.$filename;
+            $file->move('Uploads/images/', $filename);
+            $object->imageUrl = 'Uploads/images/'.$filename;
         }
-        $supplier->save();
+        $object->save();
 
-        return redirect('suppliers')->with('success','Proveedor editado correctamente.');
+        return redirect('thematics')->with('success','Editado correctamente.');
     }
 
     /**
@@ -127,8 +127,8 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        Supplier::destroy($id);
-        return redirect('suppliers')->with('success','Proveedor eliminado correctamente.');
+        Thematic::destroy($id);
+        return redirect('thematics')->with('success','Eliminado correctamente.');
     }
 
    
