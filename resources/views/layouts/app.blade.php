@@ -58,7 +58,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
-      <img src="{{asset('template/img/miniowl.png')}}" alt="AdminLTE Logo" class="brand-image">
+      <img src="{{asset('template/img/minilogo.png')}}" alt="AdminLTE Logo" class="brand-image">
       <span class="brand-text font-weight-light">Ukiyo Box</span>
     </a>
 
