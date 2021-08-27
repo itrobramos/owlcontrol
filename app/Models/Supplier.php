@@ -5,13 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductTagPrice extends Model
+class Supplier extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'products_tags_prices';
-
-        
-
-
+   
 }

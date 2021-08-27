@@ -59,7 +59,7 @@
     <!-- Brand Logo -->
     <a href="" class="brand-link">
       <img src="{{asset('template/img/miniowl.png')}}" alt="AdminLTE Logo" class="brand-image">
-      <span class="brand-text font-weight-light">Owl Control</span>
+      <span class="brand-text font-weight-light">Ukiyo Box</span>
     </a>
 
     <!-- Sidebar -->
@@ -92,7 +92,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>@yield('title', 'Owl Control')</h1>
+            <h1>@yield('title', 'Ukiyo Box')</h1>
           </div>
           <div class="col-sm-6">
             @yield('breadcrumb')
@@ -115,7 +115,7 @@
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; <a href="#">Owl Control</a></strong>
+    <strong>Copyright &copy; <a href="#">Ukiyo Box</a></strong>
   </footer>
 
   

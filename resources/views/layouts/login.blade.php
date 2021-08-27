@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Owl Control | Log in</title>
+  <title>Ukiyo Box | Log in</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -21,7 +21,7 @@
   <div class="login-logo">
     
 
-    <img src="{{ asset('images/logo.png') }}" alt="" style="width:150px">
+    <img src="{{ asset('images/logo.png') }}" alt="" style="width:260px">
   </div>
   <!-- /.login-logo -->
   <div class="card">

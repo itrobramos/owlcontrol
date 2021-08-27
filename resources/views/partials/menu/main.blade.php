@@ -28,34 +28,11 @@
     @endhasanyrole --}}
 
     <li class="nav-item">
-      <a href="{{url('brands')}}" class="nav-link">
+      <a href="{{url('suppliers')}}" class="nav-link">
         <i class="fab fa-uber"></i>
-        <p class="text">Marcas</p>
+        <p class="text">Proveedores</p>
       </a>
     </li>
-
-    <li class="nav-item">
-      <a href="{{url('categories')}}" class="nav-link">
-        <i class="fab fa-uber"></i>
-        <p class="text">Categorías</p>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a href="{{url('products')}}" class="nav-link">
-        <i class="fab fa-uber"></i>
-        <p class="text">Productos</p>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a href="{{url('menu')}}" class="nav-link">
-        <i class="fab fa-uber"></i>
-        <p class="text">Menu</p>
-      </a>
-    </li>
-
-
 
     <li class="nav-item mt-5">
         <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

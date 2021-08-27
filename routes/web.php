@@ -26,12 +26,14 @@ Route::middleware(['auth'])->group(function () {
 
     
     
-    Route::get('brands','BrandsController@index')->name('brands.index');
-    Route::get('/brands/create','BrandsController@create')->name('brands.create');
-    Route::post('/brands/create','BrandsController@store')->name('brands.store');
-    Route::get('/brands/edit/{id}','BrandsController@edit')->name('brands.edit');
-    Route::post('/brands/edit/{id}','BrandsController@update')->name('brands.update');
-    Route::delete('/brands/destroy/{id}','BrandsController@destroy')->name('brands.destroy');
+    Route::get('suppliers','SupplierController@index')->name('suppliers.index');
+    Route::get('/suppliers/create','SupplierController@create')->name('suppliers.create');
+    Route::post('/suppliers/create','SupplierController@store')->name('suppliers.store');
+    Route::get('/suppliers/edit/{id}','SupplierController@edit')->name('suppliers.edit');
+    Route::post('/suppliers/edit/{id}','SupplierController@update')->name('suppliers.update');
+    Route::delete('/suppliers/destroy/{id}','SupplierController@destroy')->name('suppliers.destroy');
+
+
     Route::get('getBrands','BrandsController@getBrands');//AJAX 
     Route::get('getPriceTags/{id}','BrandsController@getPriceTags');//AJAX 
 
