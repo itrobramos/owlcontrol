@@ -25,7 +25,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth'])->group(function () {
 
     
-    
+  
+    Route::get('product_types','ProductTypeController@index')->name('product_types.index');
+    Route::get('/product_types/create','ProductTypeController@create')->name('product_types.create');
+    Route::post('/product_types/create','ProductTypeController@store')->name('product_types.store');
+    Route::get('/product_types/edit/{id}','ProductTypeController@edit')->name('product_types.edit');
+    Route::post('/product_types/edit/{id}','ProductTypeController@update')->name('product_types.update');
+    Route::delete('/product_types/destroy/{id}','ProductTypeController@destroy')->name('product_types.destroy');
+
+
     Route::get('suppliers','SupplierController@index')->name('suppliers.index');
     Route::get('/suppliers/create','SupplierController@create')->name('suppliers.create');
     Route::post('/suppliers/create','SupplierController@store')->name('suppliers.store');

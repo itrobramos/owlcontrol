@@ -27,16 +27,24 @@
     </li>
     @endhasanyrole --}}
 
+
+    <li class="nav-item">
+      <a href="{{url('product_types')}}" class="nav-link">
+        <i class="fas fa-box"></i>
+        <p class="text">Tipos de Productos</p>
+      </a>
+    </li>
+    
     <li class="nav-item">
       <a href="{{url('suppliers')}}" class="nav-link">
-        <i class="fab fa-uber"></i>
+        <i class="fas fa-people-carry"></i>
         <p class="text">Proveedores</p>
       </a>
     </li>
 
     <li class="nav-item">
       <a href="{{url('thematics')}}" class="nav-link">
-        <i class="fab fa-uber"></i>
+        <i class="fas fa-dragon"></i>
         <p class="text">Temáticas</p>
       </a>
     </li>
