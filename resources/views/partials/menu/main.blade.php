@@ -29,6 +29,13 @@
 
 
     <li class="nav-item">
+      <a href="{{url('boxes')}}" class="nav-link">
+        <i class="fas fa-box"></i>
+        <p class="text">Cajas</p>
+      </a>
+    </li>
+
+    <li class="nav-item">
       <a href="{{url('box_types')}}" class="nav-link">
         <i class="fas fa-box"></i>
         <p class="text">Tipos de Caja</p>
@@ -42,6 +49,13 @@
       </a>
     </li>
     
+    <li class="nav-item">
+      <a href="{{url('products')}}" class="nav-link">
+        <i class="fas fa-box"></i>
+        <p class="text">Productos</p>
+      </a>
+    </li>
+
     <li class="nav-item">
       <a href="{{url('suppliers')}}" class="nav-link">
         <i class="fas fa-people-carry"></i>

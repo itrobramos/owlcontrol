@@ -26,24 +26,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-     
-
-
-      {{-- Carrito de compra --}}
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="fas fa-shopping-bag"></i>
-          <span class="badge badge-warning navbar-badge cartCount">0</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header"><span class="cartCount">0</span> Productos</span>
-          <div class="dropdown-divider"></div>
-          <div id="cartProducts">
-          </div>
-        </div>
-      </li>
-
-     
+          
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
