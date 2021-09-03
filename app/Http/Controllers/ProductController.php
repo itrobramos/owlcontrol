@@ -32,7 +32,8 @@ class ProductController extends Controller
     {
         $thematics = Thematic::orderBy('name')->get();    
         $types = ProductType::orderBy('name')->get();  
-        return view('products.create',compact('thematics', 'types'));;
+        $SKU = Product::max('sku') + 1;
+        return view('products.create',compact('thematics', 'types', 'SKU'));;
     }
 
     public function store(Request $request)
@@ -47,7 +48,7 @@ class ProductController extends Controller
         $object->name = $request->name;
         $object->internal_name = $request->internal_name;
         $object->description = $request->description;
-        $object->stock = $request->stock;
+        $object->stock = 0;
         $object->value = $request->value;
 
         if($LastSKU == null)
