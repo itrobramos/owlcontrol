@@ -12,6 +12,4 @@ npm-debug.log
 yarn-error.log
 
 
-#public/platformsUploads/images/*
-#public/clientsUploads/images/*
-#public/productsUploads/images/*
+public/Uploads/images/*
