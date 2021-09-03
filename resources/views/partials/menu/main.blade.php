@@ -30,7 +30,7 @@
 
     <li class="nav-item">
       <a href="{{url('boxes')}}" class="nav-link">
-        <i class="fas fa-box"></i>
+        <i class="fas fa-box-open"></i>
         <p class="text">Cajas</p>
       </a>
     </li>
@@ -49,12 +49,55 @@
       </a>
     </li>
     
+    
+
     <li class="nav-item">
-      <a href="{{url('products')}}" class="nav-link">
-        <i class="fas fa-box"></i>
-        <p class="text">Productos</p>
+      <a href="#" class="nav-link">
+          <i class="nav-icon fas fa-fan"></i>
+          <p>
+              Productos
+              <i class="right fas fa-angle-left"></i>
+          </p>
       </a>
-    </li>
+      <ul class="nav nav-treeview" style="display: none;">
+
+
+
+        <li class="nav-item">
+          <a href="{{url('products')}}" class="nav-link">
+            <i class="fas fa-fan"></i>
+            <p class="text">Catálogo</p>
+          </a>
+        </li>
+
+        {{-- <li class="nav-item">
+          <a href="{{url('products')}}" class="nav-link">
+            <i class="fas fa-fan"></i>
+            <p class="text">Inventario</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{url('products')}}" class="nav-link">
+            <i class="fas fa-fan"></i>
+            <p class="text">Entrada Mercancía</p>
+          </a>
+        </li> --}}
+
+
+        <li class="nav-item">
+          <a href="{{url('entries')}}" class="nav-link">
+            <i class="fas fa-fan"></i>
+            <p class="text">Entradas</p>
+          </a>
+        </li>
+          
+          
+          
+          
+      </ul>
+  </li>
+
 
     <li class="nav-item">
       <a href="{{url('suppliers')}}" class="nav-link">

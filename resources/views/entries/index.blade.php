@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title', 'Productos')
+@section('title', 'Entradas')
 
 @section('breadcrumb')
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Productos</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('entries.index') }}">Entradas</a></li>
 </ol>
 @endsection
 
@@ -14,7 +14,7 @@
         
 
         <div class="card-tools">
-            <a href="{{ route('products.create') }} " class="btn btn-primary">Agregar</a>
+            <a href="{{ route('entries.create') }} " class="btn btn-primary">Agregar</a>
         </div>
     </div>
 
@@ -24,11 +24,10 @@
             <thead>
               <tr>
                 <th style="width:40px;"></th>
-                <th>Nombre</th>
-                <th>Existencias</th>
-                <th>Tipo</th>
-                <th>Temática</th>
-
+                <th>Proveedor</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Envío</th>
                 <th></th>
               </tr>
             </thead>
@@ -36,24 +35,25 @@
                 @foreach ($objects as $object)
                     <tr>
                         <td class="text-center">
-                            @if ( File::exists($object->imageUrl)  )
-                                <img src="{{ asset($object->imageUrl) }}"  style="max-width: 90px; max-height: 60px;">
+                            @if ( File::exists($object->supplier->imageUrl)  )
+                                <img src="{{ asset($object->supplier->imageUrl) }}"  style="max-width: 90px; max-height: 60px;">
                             @else
                                 <img src="{{ asset('images/not-found.png') }}"  style="max-width: 90px; max-height: 60px;">
                             @endif
                         </td>
-                        <td>{{$object->name}}</td>
-                        <td>{{$object->stock}}</td>
-                        <td>{{$object->type->name}}</td>
-                        <td>{{@$object->thematic->name}}</td>
+                        <td>{{$object->supplier->name}}</td>
+                        <td>{{$object->date}}</td>
+                        <td>{{$object->totalCost}}</td>
+                        <td>{{$object->shipCost}}</td>
+
                         <td>
-                            <a class="btn btn-info btn-sm" href="{{ route('products.edit', ['id'=>$object->id]) }}">
+                            {{-- <a class="btn btn-info btn-sm" href="{{ route('entries.edit', ['id'=>$object->id]) }}">
                                 <i class="fas fa-pencil-alt">
                                 </i>
                                 Editar
-                            </a>
+                            </a> --}}
 
-                            <a class="btn btn-danger btn-sm button-destroy" href="{{ route('products.destroy',['id'=>$object->id]) }}"
+                            <a class="btn btn-danger btn-sm button-destroy" href="{{ route('entries.destroy',['id'=>$object->id]) }}"
                                 data-original-title="Eliminar"
                                 data-method="delete"
                                 data-trans-button-cancel="Cancelar"
