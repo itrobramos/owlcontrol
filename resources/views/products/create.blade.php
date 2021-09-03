@@ -52,8 +52,15 @@
 
                 <div class="form-group">
                     <label for="exampleInputEmail1">Valor</label>
-                    <input type="number" name="value" class="form-control" value="{{ old('value') }}">
-                </div>
+                    <select name="value" id="" class="form-control">
+                      <option value="">Seleccione</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+
+                    </select>
+
+                  </div>
 
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tipo Producto</label>
