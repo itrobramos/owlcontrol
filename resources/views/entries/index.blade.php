@@ -47,11 +47,11 @@
                         <td>{{$object->shipCost}}</td>
 
                         <td>
-                            {{-- <a class="btn btn-info btn-sm" href="{{ route('entries.edit', ['id'=>$object->id]) }}">
-                                <i class="fas fa-pencil-alt">
+                            <a class="btn btn-info btn-sm" href="{{ route('entries.show', ['id'=>$object->id]) }}">
+                                <i class="fas fa-eye">
                                 </i>
-                                Editar
-                            </a> --}}
+                                Detalles
+                            </a>
 
                             <a class="btn btn-danger btn-sm button-destroy" href="{{ route('entries.destroy',['id'=>$object->id]) }}"
                                 data-original-title="Eliminar"

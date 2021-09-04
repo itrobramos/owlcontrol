@@ -16,4 +16,8 @@ class Entry extends Model
     public function currency(){
         return $this->belongsTo(Supplier::class,'currencyId','id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'userId','id');
+    }
 }

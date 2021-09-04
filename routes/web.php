@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/entries/edit/{id}','EntryController@edit')->name('entries.edit');
     Route::post('/entries/edit/{id}','EntryController@update')->name('entries.update');
     Route::delete('/entries/destroy/{id}','EntryController@destroy')->name('entries.destroy');
+    Route::get('/entries/show/{id}','EntryController@show')->name('entries.show');
 
 
 

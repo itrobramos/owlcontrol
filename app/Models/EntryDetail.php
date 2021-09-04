@@ -9,5 +9,8 @@ class EntryDetail extends Model
 {
     protected $table =  "entry_details";
 
+    public function product(){
+        return $this->belongsTo(Product::class,'productId','id');
+    }
    
 }

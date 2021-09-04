@@ -116,7 +116,10 @@ class EntryController extends Controller
 
     public function show($id)
     {
-        //
+        $object = Entry::findOrFail($id);
+        $details = EntryDetail::where('entryId', $id)->get();
+
+        return view('entries.show',compact('object', 'details'));
     }
 
 
