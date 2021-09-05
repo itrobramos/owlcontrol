@@ -91,5 +91,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/entries/show/{id}','EntryController@show')->name('entries.show');
 
 
+    Route::get('paymentmethods','PaymentMethodController@index')->name('paymentmethods.index');
+    Route::get('/paymentmethods/create','PaymentMethodController@create')->name('paymentmethods.create');
+    Route::post('/paymentmethods/create','PaymentMethodController@store')->name('paymentmethods.store');
+    Route::get('/paymentmethods/edit/{id}','PaymentMethodController@edit')->name('paymentmethods.edit');
+    Route::post('/paymentmethods/edit/{id}','PaymentMethodController@update')->name('paymentmethods.update');
+    Route::delete('/paymentmethods/destroy/{id}','PaymentMethodController@destroy')->name('paymentmethods.destroy');
+
 
 });

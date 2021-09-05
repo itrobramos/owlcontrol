@@ -99,6 +99,14 @@
   </li>
 
 
+  <li class="nav-item">
+    <a href="{{url('payment_methods')}}" class="nav-link">
+      <i class="fas fa-dragon"></i>
+      <p class="text">Métodos de Pago</p>
+    </a>
+  </li>
+
+
     <li class="nav-item">
       <a href="{{url('suppliers')}}" class="nav-link">
         <i class="fas fa-people-carry"></i>
