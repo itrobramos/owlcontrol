@@ -47,6 +47,8 @@ class EntryController extends Controller
         \DB::beginTransaction();
         try {
 
+            $userSession = Auth::user();
+
             $object = new Entry();
             $object->supplierId = $request->supplierId;
             $object->date = $request->date;
@@ -54,6 +56,7 @@ class EntryController extends Controller
 
             $object->totalCost = 0;
             $object->shipCost = 0;
+            $object->userId = $userSession->id;
             
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
