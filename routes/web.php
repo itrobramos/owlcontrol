@@ -99,4 +99,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/paymentmethods/destroy/{id}','PaymentMethodController@destroy')->name('paymentmethods.destroy');
 
 
+
+    ///Reportes
+
+    Route::get('reports', 'ReportsController@index')->name('reports');
+    Route::get('reports/cashflow', 'ReportsController@cashflow')->name('reports.cashflow');
+    Route::post('reports/cashflow', 'ReportsController@cashflowDate')->name('reports.cashflowDate');
+
+
 });
