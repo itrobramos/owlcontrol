@@ -101,7 +101,7 @@
 
   <li class="nav-item">
     <a href="{{url('payment_methods')}}" class="nav-link">
-      <i class="fas fa-dragon"></i>
+      <i class="far fa-credit-card"></i>
       <p class="text">Métodos de Pago</p>
     </a>
   </li>
