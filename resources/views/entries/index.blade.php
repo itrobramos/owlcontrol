@@ -43,8 +43,8 @@
                         </td>
                         <td>{{$object->supplier->name}}</td>
                         <td>{{$object->date}}</td>
-                        <td>{{$object->totalCost}}</td>
-                        <td>{{$object->shipCost}}</td>
+                        <td>$ {{$object->totalCost}}</td>
+                        <td>$ {{$object->shipCost}}</td>
 
                         <td>
                             <a class="btn btn-info btn-sm" href="{{ route('entries.show', ['id'=>$object->id]) }}">

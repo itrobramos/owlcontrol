@@ -97,7 +97,18 @@
                 </div>
 
 
-                <div class="row">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label for="exampleInputEmail1">Incluir fecha de caducidad</label>
+                            <input type="checkbox" name="expiryDate" class="form-control">        
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row ">
                     <div class="col-12">
                         <a href="{{ route('products.index') }}" class="btn btn-danger">Cancelar</a>
                         <button class="btn btn-primary" type="submit">Guardar</button>

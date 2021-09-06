@@ -6,6 +6,7 @@ use App\Models\Currency;
 use App\Models\Entry;
 use App\Models\EntryDetail;
 use App\Models\Supplier;
+use App\Models\PaymentMethod;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ class EntryController extends Controller
 
     public function index()
     {
-        $objects = Entry::orderBy('date')->paginate(20);
+        $objects = Entry::orderByDesc('date')->paginate(20);
         return view('entries.index',compact('objects'));
     }
 
@@ -35,7 +36,9 @@ class EntryController extends Controller
         $suppliers = Supplier::orderBy('name')->get();    
         $currencies = Currency::orderBy('name')->get();    
         $products = Product::orderBy('name')->get();    
-        return view('entries.create', compact('suppliers', 'currencies', 'products'));
+        $paymentmethods = PaymentMethod::orderBy('name')->get();    
+
+        return view('entries.create', compact('suppliers', 'currencies', 'products', 'paymentmethods'));
     }
 
     public function store(Request $request)
@@ -53,6 +56,8 @@ class EntryController extends Controller
             $object->supplierId = $request->supplierId;
             $object->date = $request->date;
             $object->currencyId = $request->currencyId;
+            $object->paymentMethodId = $request->paymentMethodId;
+
 
             $object->totalCost = 0;
             $object->shipCost = 0;

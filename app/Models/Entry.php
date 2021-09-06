@@ -20,4 +20,9 @@ class Entry extends Model
     public function user(){
         return $this->belongsTo(User::class,'userId','id');
     }
+
+    public function paymentMethod(){
+        return $this->belongsTo(PaymentMethod::class,'paymentmethodId','id');
+    }
+
 }

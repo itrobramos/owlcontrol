@@ -93,7 +93,12 @@
                         <div class="row">
                             <!-- accepted payments column -->
                             <div class="col-6">
-                                <p class="lead">Método de Pago:</p>
+                                <p class="lead">
+                                    <small class="float-left">Método de Pago: <br> 
+                                        <img src="{{ asset($object->paymentMethod->imageUrl) }}" style="max-width: 45px; max-height: 30px;">
+                                        {{ $object->paymentMethod->name }} 1 {{$object->paymentMethod->property}}
+                                    </small>
+                                </p>
                             </div>
                             <!-- /.col -->
                             <div class="col-6">

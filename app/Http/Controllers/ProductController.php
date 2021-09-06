@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         // $this->middleware(function ($request, $next) {
         //     $userSession = Auth::user();
         //     if(!$this->checkRoleRoutePermission($userSession)){
@@ -24,16 +25,16 @@ class ProductController extends Controller
     public function index()
     {
         $objects = Product::orderBy('name')->paginate(20);
-        return view('products.index',compact('objects'));
+        return view('products.index', compact('objects'));
     }
 
 
     public function create()
     {
-        $thematics = Thematic::orderBy('name')->get();    
-        $types = ProductType::orderBy('name')->get();  
+        $thematics = Thematic::orderBy('name')->get();
+        $types = ProductType::orderBy('name')->get();
         $SKU = Product::max('sku') + 1;
-        return view('products.create',compact('thematics', 'types', 'SKU'));;
+        return view('products.create', compact('thematics', 'types', 'SKU'));;
     }
 
     public function store(Request $request)
@@ -51,27 +52,34 @@ class ProductController extends Controller
         $object->stock = 0;
         $object->value = $request->value;
 
-        if($LastSKU == null)
+        if ($LastSKU == null)
             $object->SKU = 1;
-        else   
+        else
             $object->SKU = $LastSKU + 1;
+
+
+        if (isset($request->expiryDate))
+            $object->expiryDate = true;
+        else
+            $object->expiryDate = false;
+
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension(); // getting image extension
-            $filename =time().'.'.$extension;
+            $filename = time() . '.' . $extension;
             $file->move('Uploads/images/', $filename);
-            $object->imageUrl = 'Uploads/images/'.$filename;
+            $object->imageUrl = 'Uploads/images/' . $filename;
         }
 
         $object->productTypeId = $request->productTypeId;
-        
-        if(isset($request->thematicId))
+
+        if (isset($request->thematicId))
             $object->thematicId = $request->thematicId;
 
         $object->save();
 
-        return redirect('products')->with('success','Creado correctamente.');
+        return redirect('products')->with('success', 'Creado correctamente.');
     }
 
 
@@ -82,9 +90,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $object = Product::findOrFail($id);
-        $thematics = Thematic::orderBy('name')->get();    
-        $types = ProductType::orderBy('name')->get();  
-        return view('products.edit',compact('object','thematics', 'types'));;
+        $thematics = Thematic::orderBy('name')->get();
+        $types = ProductType::orderBy('name')->get();
+        return view('products.edit', compact('object', 'thematics', 'types'));;
     }
 
     public function update(Request $request, $id)
@@ -103,25 +111,29 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension(); // getting image extension
-            $filename =time().'.'.$extension;
+            $filename = time() . '.' . $extension;
             $file->move('Uploads/images/', $filename);
-            $object->imageUrl = 'Uploads/images/'.$filename;
+            $object->imageUrl = 'Uploads/images/' . $filename;
         }
 
         $object->productTypeId = $request->productTypeId;
-        
-        if(isset($request->thematicId))
+
+        if (isset($request->thematicId))
             $object->thematicId = $request->thematicId;
-            
+
+        if (isset($request->expiryDate))
+            $object->expiryDate = true;
+        else
+            $object->expiryDate = false;
+
+
         $object->save();
-        return redirect('products')->with('success','Editado correctamente.');
+        return redirect('products')->with('success', 'Editado correctamente.');
     }
-   
+
     public function destroy($id)
     {
         Product::destroy($id);
-        return redirect('products')->with('success','Eliminado correctamente.');
+        return redirect('products')->with('success', 'Eliminado correctamente.');
     }
-
-   
 }
