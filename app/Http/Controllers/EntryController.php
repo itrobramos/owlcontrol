@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Currency;
 use App\Models\Entry;
 use App\Models\EntryDetail;
+use App\Models\ExpiryControl;
 use App\Models\Supplier;
 use App\Models\PaymentMethod;
 use App\Models\Product;
@@ -46,6 +47,8 @@ class EntryController extends Controller
         // $validatedData = $request->validate([
         //     'name' => 'required',
         // ]);
+
+        //dd($request);
 
         \DB::beginTransaction();
         try {
@@ -100,6 +103,18 @@ class EntryController extends Controller
                     $Producto->stock = $Producto->stock + $EntryDetail->quantity;
                     $Producto->save();
 
+                
+                    foreach($product['expiry'] as $expiry){
+                       
+                        for($x = 1; $x <= $expiry['qty']; $x++){
+                            $ExpiryControl = new ExpiryControl();
+                            $ExpiryControl->productId = $Producto->id;
+                            $ExpiryControl->entryId = $object->id;
+                            $ExpiryControl->date = $expiry['date']; 
+                            $ExpiryControl->available = true;
+                            $ExpiryControl->save();
+                        }
+                    }
                 }
 
                 $object->totalCost = $Total;
@@ -109,7 +124,7 @@ class EntryController extends Controller
 
 
 
-            \DB::commit();
+            // \DB::commit();
             return redirect('entries')->with('success','Creada correctamente.');
         } catch (\Throwable $th) {
             dd($th);

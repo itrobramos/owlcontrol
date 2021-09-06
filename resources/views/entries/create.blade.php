@@ -50,7 +50,7 @@
 
                     <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
                         <label for="exampleInputEmail1">Proveedor</label>
-                        <select name="supplierId" id="" class="form-control">
+                        <select name="supplierId" class="form-control">
                             <option value="">Seleccione</option>
                             @foreach ($suppliers as $c => $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -65,9 +65,9 @@
                     </div>
 
 
-                    <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
+                    <div class="col-md-6 col-lg-2 col-sm-6 col-xs-6">
                         <label for="exampleInputEmail1">Moneda</label>
-                        <select name="currencyId" id="" class="form-control">
+                        <select name="currencyId" class="form-control">
                             <option value="">Seleccione</option>
                             @foreach ($currencies as $c => $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -75,8 +75,18 @@
                         </select>
                     </div>
 
+                    <div class="col-md-6 col-lg-2 col-sm-6 col-xs-6">
+                        <label for="exampleInputEmail1">Método de Pago</label>
+                        <select name="paymentMethodId" class="form-control">
+                            <option value="">Seleccione</option>
+                            @foreach ($paymentmethods   as $c => $item)
+                                <option value="{{ $item->id }}">{{ $item->property }} | {{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
+
+                    <div class="col-md-6 col-lg-2 col-sm-6 col-xs-6">
                         <label for="exampleInputFile">Imagen</label>
                         <div class="input-group">
                             <div class="custom-file">
@@ -103,7 +113,8 @@
                         <select id="cmbProducts" class="form-control select2">
                             <option value="">Seleccione</option>
                             @foreach ($products as $c => $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" data-expiry="{{ $item->expiryDate }}">
+                                    {{ $item->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -175,21 +186,32 @@
             var id = $("#cmbProducts").val();
 
             var productText = $("#cmbProducts option:selected").text();
+            var expiry = $("#cmbProducts option:selected").data('expiry')
 
             var timestamp = Date.now();
-            html = getTemplate(timestamp, productText, id);
+            html = getTemplate(timestamp, productText, id, expiry);
             $("#rowsoptions").append(html);
 
             $("#cmbProducts option:selected").remove();
         }
 
+        function addExpiryDate(x, id) {
 
-        function getTemplate(i, productText, productId) {
+            var timestamp = Date.now();
+            html = getExpiryDateTemplate(id, timestamp);
+
+            $(x).closest('tr').after(html);
+        }
+
+
+        function getTemplate(i, productText, productId, expiry) {
             var html = `
-            <tr id="${i}" class="bg-light color-palette">
-                    <td id="product${i}">${productText}
-                      <input type="hidden" id="productText${i}" class="form-control"  value="${productText}">
-                      <input type="hidden" id="productId${i}" class="form-control" name="product[${i}][productId]" value="${productId}">
+                <tr id="${i}" class="bg-light color-palette">
+                    <td id="product${i}"
+                    
+                    return html;>${productText}
+                        <input type="hidden" id="productText${i}" class="form-control"  value="${productText}">
+                        <input type="hidden" id="productId${i}" class="form-control" name="product[${i}][productId]" value="${productId}">
                     </td>
                     <td id="product${i}">
                         <input type="number" step="any" class="form-control" name="product[${i}][quantity]"
@@ -203,8 +225,22 @@
                         <input type="number" step="any" class="form-control" name="product[${i}][shipCost]"
                             id="ship_${i}" required value="0">
                     </td>
-                    <td>
-                        <button data-repeater-delete="" onclick="deletetemplate(${i})"
+                    <td>`;
+
+            if (expiry == 1) {
+                html = html + `
+                        <button onclick="${i}" type="button" data-toggle="collapse" data-target=".collapse${i}"
+                            class="btn-md btn btn-warning m-btn m-btn--icon m-btn--pill">
+                            <span>  
+                                Llenar Vigencia
+                            </span>
+                        </button>
+                `
+            }
+
+
+            html = html +
+                `<button data-repeater-delete="" onclick="deletetemplate(${i})"
                             class="btn-md btn btn-danger m-btn m-btn--icon m-btn--pill">
                             <span>
                                 <i class="fa fa-trash"></i>
@@ -212,13 +248,54 @@
                         </button>
                     </td>
                 </tr>
+                `
 
-              `;
+
+            if (expiry == 1) {
+                html = html + `<tr id="collapse${i}" class="collapse out collapse${i}">
+                    <td>
+                        <button type="button" class="btn btn-success" onclick="addExpiryDate(this, ${i})">+</button>    
+                    </td>
+                    <td>Fecha Vigencia
+                        <input type="date" step="any" class="form-control" name="product[${i}][expiry][${i}][date]" id="expiryDate_${i}" required   >
+                    </td>
+                    <td>
+                        Cantidad
+                        <input type="number" step="any" class="form-control" name="product[${i}][expiry][${i}][qty]" id="expiryDateQty_${i}" required value="1">                        
+                    </td>
+                </tr>`
+            }
+
+
 
             return html;
         }
 
+        function getExpiryDateTemplate(id, i) {
 
+            var html = `
+                    <tr class="out collapse${id} show" id="${i}">
+                        <td>
+                        </td>
+                        <td>
+                            <input type="date" step="any" class="form-control" name="product[${id}][expiry][${i}][date]" id="expiryDate_${i}" required   >
+                        </td>
+                        <td>
+                            <input type="number" step="any" class="form-control" name="product[${id}][expiry][${i}][qty]" id="expiryDateQty_${i}" required value="1">                        
+                        </td>
+                        <td>
+                            <button onclick="deletesimpletemplate(${i})" type="button"
+                                class="btn-md btn btn-danger m-btn m-btn--icon m-btn--pill">
+                                <span>
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+            `;
+
+            return html;
+        }
 
         function deletetemplate(i) {
             var RecoveredId = $("#productId" + i).val();
@@ -229,7 +306,14 @@
             $("#cmbProducts").append(o);
 
             $("#" + i).remove();
+            $(".collapse" + i).remove();
+
         }
+
+        function deletesimpletemplate(i) {
+            $("#" + i).remove();
+        }
+
     </script>
 
 @endsection
