@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ExpiryControl;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\Thematic;
@@ -135,5 +136,29 @@ class ProductController extends Controller
     {
         Product::destroy($id);
         return redirect('products')->with('success', 'Eliminado correctamente.');
+    }
+
+    public function merma($id)
+    {
+        $Expiry = ExpiryControl::find($id);
+        $Expiry->available = false;
+        $Expiry->merma = true;
+        $Expiry->save();
+        return redirect()->back()->with('success','Merma guardada correctamente.');
+    }
+
+    public function fifo($id){
+        $object = Product::find($id);
+        $controlExpiration = ExpiryControl::where('productId', $id)->where('available', 1)->paginate(20);
+
+        return view('products.fifo', compact('object', 'controlExpiration'));
+    }
+
+    public function sold($id){
+        $Expiry = ExpiryControl::find($id);
+        $Expiry->available = false;
+        $Expiry->save();
+        return redirect()->back()->with('success','Venta guardada correctamente.');
+        
     }
 }

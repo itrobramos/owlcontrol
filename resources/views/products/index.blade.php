@@ -52,8 +52,6 @@
                                 </i>
                             </a>
 
-                           
-
                             <a class="btn btn-danger btn-sm button-destroy" href="{{ route('products.destroy',['id'=>$object->id]) }}"
                                 data-original-title="Eliminar"
                                 data-method="delete"
@@ -63,12 +61,11 @@
                                 data-trans-subtitle="Esta operación eliminará este registro permanentemente">
                                     <i class="fas fa-trash">
                                     </i>
-                                    
                             </a>
 
                             @if($object->expiryDate == 1)
                             <a class="btn btn-warning btn-sm" href="{{ route('products.fifo', ['id'=>$object->id]) }}">
-                                <i class="fas fa-clock">
+                                <i class="fas fa-clock" title="Vigencias">
                                 </i>
                                 Vigencias
                             </a>
