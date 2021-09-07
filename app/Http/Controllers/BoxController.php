@@ -183,7 +183,7 @@ class BoxController extends Controller
                                                         'value' => $variable->value,
                                                         'thematic' => $variable->thematic? $variable->thematic->name : null,
                                                         'products' => json_decode($products) ,
-                                                        'productCount' => $products->count()  
+                                                        'productCount' => $products->sum('stock')  
                                                     ];
             }
             else{
@@ -194,7 +194,7 @@ class BoxController extends Controller
                                                         'value' => $variable->value,
                                                         'thematic' => $variable->thematic? $variable->thematic->name : null,
                                                         'products' => json_decode($products) ,
-                                                        'productCount' => $products->count()  
+                                                        'productCount' => $products->sum('stock')  
                                                     ];
             }
 

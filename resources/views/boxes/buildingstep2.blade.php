@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="card-body" id="body_nuevos">
                                     @foreach($d['contains'][0]['products'] as $product)
-                                        {{$product->name}}
+                                        {{$product->name}}            ({{$product->stock}})
                                         @if (File::exists($product->imageUrl))
                                             <img src="{{ asset($product->imageUrl) }}" class="img-thumbnail"
                                             style="object-fit: cover;width:50px;height:50px">
