@@ -166,12 +166,12 @@ class BoxController extends Controller
         foreach($variablecontains as $variable){
 
             $products = Product::where('stock','>', 0)
-                                ->where('value','=',$variable->value)
-                                ->where('productTypeId','=',$variable->productTypeId)                            
+                                ->where('value','==',$variable->value)
+                                ->where('productTypeId','==',$variable->productTypeId)                            
                                 ->get();
             
             if(isset($variable->thematic))
-                 $products->where('thematicId', '=', $variable->thematicId);
+                 $products->where('thematicId', '==', $variable->thematicId);
             
             
 
