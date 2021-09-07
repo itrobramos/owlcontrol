@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ExpiryControl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use DB;
 
 class ReportsController extends Controller
@@ -64,6 +66,15 @@ class ReportsController extends Controller
         $data["Parameters"] = $Parameters;
 
         return view('reports.cashflow', $data);
+    }
+
+    public function expiration()
+    {
+       
+        $expirationData = ExpiryControl::where('available', 1)->whereDate('date', '>', Carbon::now()->subDays(60))->orderBy('date')->paginate(20);
+        $data["expirationData"] = $expirationData;
+
+        return view('reports.expiration', $data);
     }
   
 }

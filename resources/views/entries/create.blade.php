@@ -80,7 +80,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-6 col-lg-2 col-sm-6 col-xs-6">
+                    <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
                         <label for="exampleInputEmail1">Método de Pago</label>
                         <select name="paymentMethodId" class="form-control">
                             <option value="">Seleccione</option>
@@ -91,7 +91,7 @@
                     </div>
 
 
-                    <div class="col-md-6 col-lg-2 col-sm-6 col-xs-6">
+                    <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
                         <label for="exampleInputFile">Imagen</label>
                         <div class="input-group">
                             <div class="custom-file">

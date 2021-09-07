@@ -106,16 +106,20 @@ class EntryController extends Controller
                     $Producto->save();
 
                 
-                    foreach($product['expiry'] as $expiry){
+                    if(isset($product['expiry'])){
+
+                        foreach($product['expiry'] as $expiry){
                        
-                        for($x = 1; $x <= $expiry['qty']; $x++){
-                            $ExpiryControl = new ExpiryControl();
-                            $ExpiryControl->productId = $Producto->id;
-                            $ExpiryControl->entryId = $object->id;
-                            $ExpiryControl->date = $expiry['date']; 
-                            $ExpiryControl->available = true;
-                            $ExpiryControl->save();
+                            for($x = 1; $x <= $expiry['qty']; $x++){
+                                $ExpiryControl = new ExpiryControl();
+                                $ExpiryControl->productId = $Producto->id;
+                                $ExpiryControl->entryId = $object->id;
+                                $ExpiryControl->date = $expiry['date']; 
+                                $ExpiryControl->available = true;
+                                $ExpiryControl->save();
+                            }
                         }
+    
                     }
                 }
 
@@ -126,7 +130,7 @@ class EntryController extends Controller
 
 
 
-            // \DB::commit();
+            \DB::commit();
             return redirect('entries')->with('success','Creada correctamente.');
         } catch (\Throwable $th) {
             dd($th);

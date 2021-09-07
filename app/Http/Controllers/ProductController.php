@@ -149,7 +149,7 @@ class ProductController extends Controller
 
     public function fifo($id){
         $object = Product::find($id);
-        $controlExpiration = ExpiryControl::where('productId', $id)->where('available', 1)->paginate(20);
+        $controlExpiration = ExpiryControl::where('productId', $id)->where('available', 1)->orderBy('date')->paginate(20);
 
         return view('products.fifo', compact('object', 'controlExpiration'));
     }

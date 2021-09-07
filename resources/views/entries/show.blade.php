@@ -31,7 +31,7 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6 invoice-col">
-                                <b>Fecha Pedido: {{@$object->orderDate}}</b>
+                                <b>Fecha Pedido:</b> {{@$object->orderDate}}
                                 <br>
                                 <b>Fecha Entrada:</b> {{@$object->date}}
                                 <br>

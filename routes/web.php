@@ -109,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports', 'ReportsController@index')->name('reports');
     Route::get('reports/cashflow', 'ReportsController@cashflow')->name('reports.cashflow');
     Route::post('reports/cashflow', 'ReportsController@cashflowDate')->name('reports.cashflowDate');
+    Route::get('reports/expiration', 'ReportsController@expiration')->name('reports.expiration');
 
 
 });

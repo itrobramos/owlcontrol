@@ -1,4 +1,4 @@
-@php $title = 'Fechas de vigencia de: ' . $object->name  @endphp
+@php $title = 'Fechas de vigencia: ' . $object->name  @endphp
 @extends('layouts.app')
 @section('title', $title)
 
@@ -39,10 +39,11 @@
                             $days = $ticketTime - time();
                         @endphp
 
-                        @if (round($days / 86400) < 60)
+                        @if (round($days / 86400) < 0)
+                            <tr class="bg-danger">
+                        @elseif(round($days/ 86400) < 60) 
                             <tr class="bg-warning">
-                            @elseif(round($days/ 86400) <0) <tr class="bg-danger">
-                                @else
+                        @else
                             <tr class="bg-default">
                         @endif
 

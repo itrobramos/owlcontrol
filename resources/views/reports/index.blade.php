@@ -36,7 +36,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3 text-center">
                 <div class="card card-row card-default">
                     <div class="card-header bg-secondary">
-                        <h3 class="card-title text-justify">
+                        <h3 class="card-title">
                             Ventas por plataforma (En construcción)
                         </h3>
                     </div>
@@ -52,11 +52,11 @@
                 <div class="card card-row card-default">
                     <div class="card-header bg-secondary">
                         <h3 class="card-title">
-                            Temáticas  (En construcción)
+                            Próximos a caducar  (En construcción)
                         </h3>
                     </div>
                     <div class="card-body" id="body_nuevos">
-                        <a href="{{url('reports/categories')}}">
+                        <a href="{{url('reports/expiration')}}">
                             <img src="images/calendar.png" alt="" class="" style="object-fit: cover;width:250px;height:250px">
                         </a>
                     </div>
