@@ -15,15 +15,6 @@
             <div class="row">
                 <div class="col-12">
                     <div class="invoice p-3 mb-3">
-                        <!-- title row -->
-                        <div class="row">
-                            <div class="col-12">
-                                <h4>
-                                    <small class="float-right">Fecha: {{$object->date}}</small>
-                                </h4>
-                            </div>
-                            <!-- /.col -->
-                        </div>
                         <!-- info row -->
                         <div class="row invoice-info">
                             <div class="col-sm-4 invoice-col">
@@ -39,14 +30,15 @@
                                 @endif
                             </div>
                             <!-- /.col -->
-                            <div class="col-sm-4 invoice-col">
-                                Recibe
-                                <address>
-                                    <strong>{{@$object->user->name}}</strong><br>
-                                </address>
+                            <div class="col-sm-6 invoice-col">
+                                <b>Fecha Pedido: {{@$object->orderDate}}</b>
+                                <br>
+                                <b>Fecha Entrada:</b> {{@$object->date}}
+                                <br>
+                                <b>Recibe:</b> {{@$object->user->name}}
                             </div>
                             <!-- /.col -->
-                            <div class="col-sm-4 invoice-col">
+                            <div class="col-sm-2 invoice-col">
                                 <b>Folio #{{$object->id}}</b>
                                 <br>
                                 <b>Total:</b> {{$object->totalCost}}

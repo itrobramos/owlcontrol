@@ -58,6 +58,8 @@ class EntryController extends Controller
             $object = new Entry();
             $object->supplierId = $request->supplierId;
             $object->date = $request->date;
+            $object->orderDate = $request->orderDate;
+
             $object->currencyId = $request->currencyId;
             $object->paymentMethodId = $request->paymentMethodId;
 

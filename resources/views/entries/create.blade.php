@@ -60,7 +60,12 @@
 
 
                     <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
-                        <label for="exampleInputEmail1">Fecha</label>
+                        <label for="exampleInputEmail1">Fecha Pedido</label>
+                        <input type="date" name="orderDate" class="form-control">
+                    </div>
+
+                    <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
+                        <label for="exampleInputEmail1">Fecha Entrada</label>
                         <input type="date" name="date" class="form-control">
                     </div>
 
