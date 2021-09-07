@@ -1,23 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Cajas')
+@section('title', 'Armado de Caja')
 
 @section('breadcrumb')
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('boxes.index') }}">Cajas</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('boxbuilding') }}">Armado de caja</a></li>
 </ol>
 @endsection
 
 @section('content')
 <div class="card">
-    <div class="card-header">
-        
-
-        <div class="card-tools">
-            <a href="{{ route('boxes.create') }} " class="btn btn-primary">Agregar</a>
-        </div>
-    </div>
-
     
     <div class="card-body">
         <table class="table table-striped table-bordered">
@@ -43,28 +35,11 @@
                         <td>{{$object->name}}</td>
                         <td>{{$object->price}}</td>
                         <td>{{$object->thematic->name}}</td>
-
                         <td>
-                            <a class="btn btn-info btn-sm" href="{{ route('boxes.edit', ['id'=>$object->id]) }}">
-                                <i class="fas fa-pencil-alt">
+                            <a class="btn btn-dark btn-sm" href="{{ route('boxbuildingstep2', ['id'=>$object->id]) }}">
+                                <i class="fas fa-check-square">
                                 </i>
-                            </a>
-
-                            <a class="btn btn-danger btn-sm button-destroy" href="{{ route('boxes.destroy',['id'=>$object->id]) }}"
-                                data-original-title="Eliminar"
-                                data-method="delete"
-                                data-trans-button-cancel="Cancelar"
-                                data-trans-button-confirm="Eliminar"
-                                data-trans-title="¿Está seguro de esta operación?"
-                                data-trans-subtitle="Esta operación eliminará este registro permanentemente">
-                                    <i class="fas fa-trash">
-                                    </i>
-                            </a>
-
-                            <a class="btn btn-dark btn-sm" href="{{ route('boxes.configure', ['id'=>$object->id]) }}">
-                                <i class="fas fa-eye">
-                                </i>
-                                Configurar
+                                Armar
                             </a>
 
                         </td>

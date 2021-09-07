@@ -271,8 +271,6 @@
                 </tr>`
             }
 
-
-
             return html;
         }
 

@@ -102,7 +102,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/paymentmethods/edit/{id}','PaymentMethodController@update')->name('paymentmethods.update');
     Route::delete('/paymentmethods/destroy/{id}','PaymentMethodController@destroy')->name('paymentmethods.destroy');
 
-
+    Route::get('boxbuilding', 'BoxController@building')->name('boxbuilding');
+    Route::get('boxbuildingstep2/{id}', 'BoxController@boxbuildingstep2')->name('boxbuildingstep2');
 
     ///Reportes
 

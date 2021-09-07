@@ -105,6 +105,13 @@
         <ul class="nav nav-treeview" style="display: none;">
 
             <li class="nav-item">
+                <a href="{{ url('boxbuilding') }}" class="nav-link">
+                    <i class="fas fa-box"></i>
+                    <p class="text">Armado de caja</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="{{ url('entries') }}" class="nav-link">
                     <i class="fas fa-fan"></i>
                     <p class="text">Entrada Mercancía</p>
