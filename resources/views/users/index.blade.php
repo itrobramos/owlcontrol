@@ -41,7 +41,7 @@
                             <a class="btn btn-info btn-sm" href="{{ route('users.edit', ['id'=>$u->id]) }}">
                                 <i class="fas fa-pencil-alt">
                                 </i>
-                                Editar
+                                
                             </a>
 
                             <a class="btn btn-danger btn-sm button-destroy" href="{{ route('users.destroy',['id'=>$u->id]) }}"
@@ -53,7 +53,7 @@
                                 data-trans-subtitle="Esta operación eliminará este registro permanentemente">
                                     <i class="fas fa-trash">
                                     </i>
-                                    Eliminar
+                                    
                             </a>
 
                           

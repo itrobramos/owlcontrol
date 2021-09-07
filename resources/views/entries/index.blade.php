@@ -62,7 +62,7 @@
                                 data-trans-subtitle="Esta operación eliminará este registro permanentemente">
                                     <i class="fas fa-trash">
                                     </i>
-                                    Eliminar
+                                    
                             </a>
                         </td>
                     </tr>

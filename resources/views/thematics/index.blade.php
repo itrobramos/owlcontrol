@@ -43,7 +43,7 @@
                             <a class="btn btn-info btn-sm" href="{{ route('thematics.edit', ['id'=>$object->id]) }}">
                                 <i class="fas fa-pencil-alt">
                                 </i>
-                                Editar
+                                
                             </a>
 
                             <a class="btn btn-danger btn-sm button-destroy" href="{{ route('thematics.destroy',['id'=>$object->id]) }}"
@@ -55,7 +55,7 @@
                                 data-trans-subtitle="Esta operación eliminará este registro permanentemente">
                                     <i class="fas fa-trash">
                                     </i>
-                                    Eliminar
+                                    
                             </a>
                         </td>
                     </tr>

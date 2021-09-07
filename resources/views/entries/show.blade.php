@@ -95,8 +95,13 @@
                             <div class="col-6">
                                 <p class="lead">
                                     <small class="float-left">Método de Pago: <br> 
-                                        <img src="{{ asset($object->paymentMethod->imageUrl) }}" style="max-width: 45px; max-height: 30px;">
-                                        {{ $object->paymentMethod->name }} 1 {{$object->paymentMethod->property}}
+                                        @if ( isset($object->paymentMethod->imageUrl) && File::exists($object->paymentMethod->imageUrl))
+                                            <img src="{{ asset($object->paymentMethod->imageUrl) }}" style="max-width: 45px; max-height: 30px;">
+                                        @else
+                                            <img src="{{ asset('images/not-found.png') }}"  style="max-width: 45; max-height: 30px;">
+                                        @endif
+
+                                        {{ @$object->paymentMethod->name }}  {{@$object->paymentMethod->property}}
                                     </small>
                                 </p>
                             </div>
