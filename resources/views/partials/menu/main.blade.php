@@ -67,7 +67,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ url('payment_methods') }}" class="nav-link">
+                <a href="{{ url('paymentmethods') }}" class="nav-link">
                     <i class="far fa-credit-card"></i>
                     <p class="text">Métodos de Pago</p>
                 </a>
