@@ -47,7 +47,10 @@ class BoxController extends Controller
         $object = new Box();
         $object->name = $request->name;
         $object->price = $request->price;
-        $object->thematicId = $request->thematicId;
+
+        if(isset($request->thematicId)){
+            $object->thematicId = $request->thematicId;
+        }
 
 
         if ($request->hasFile('image')) {
