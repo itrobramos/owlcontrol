@@ -167,19 +167,23 @@ class BoxController extends Controller
         $previousTypeId = 0;
 
         foreach($variablecontains as $variable){
+ 
+            $products = null;
 
             $products = Product::where('stock','>', 0)
-                                ->where('value','=',$variable->value)
-                                ->where('productTypeId','=',$variable->productTypeId)                            
-                                ->get();
-            
-            if(isset($variable->thematic))
-                 $products->where('thematicId', '=', $variable->thematicId);
-            
+                                ->where('value', $variable->value)
+                                ->where('productTypeId',$variable->productTypeId);                            
             
 
+            if(isset($variable->thematic))
+                 $products->where('thematicId', $variable->thematicId);
+                        
+            $products = $products->get();
+
             if($variable->productTypeId != $previousTypeId){
-                $data[$variable->productTypeId]['type'] = $variable->type->name;
+                $data[$variable->productTypeId]['type'][] = ["name" => $variable->type->name, 
+                                                             "id" => $variable->id];
+
                 $data[$variable->productTypeId]['contains'][] = [
                                                         'type'     => $variable->type->name,
                                                         'quantity' => $variable->quantity,

@@ -42,7 +42,7 @@
                         </td>
                         <td>{{$object->name}}</td>
                         <td>{{$object->price}}</td>
-                        <td>{{$object->thematic->name}}</td>
+                        <td>{{@$object->thematic->name}}</td>
 
                         <td>
                             <a class="btn btn-info btn-sm" href="{{ route('boxes.edit', ['id'=>$object->id]) }}">

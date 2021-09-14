@@ -18,7 +18,7 @@ class CreateBoxesTable extends Migration
             $table->string('name');
             $table->decimal("price",12,2);
             $table->string('imageUrl')->nullable();
-            $table->bigInteger("thematicId")->unsigned();
+            $table->bigInteger("thematicId")->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes('deleted_at', 0);
 

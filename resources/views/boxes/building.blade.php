@@ -34,7 +34,7 @@
                         </td>
                         <td>{{$object->name}}</td>
                         <td>{{$object->price}}</td>
-                        <td>{{$object->thematic->name}}</td>
+                        <td>{{@$object->thematic->name}}</td>
                         <td>
                             <a class="btn btn-dark btn-sm" href="{{ route('boxbuildingstep2', ['id'=>$object->id]) }}">
                                 <i class="fas fa-check-square">

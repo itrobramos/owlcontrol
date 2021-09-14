@@ -51,51 +51,63 @@
         <div class="card">
 
             <div class="card-header">
-                <h3 class="card-title">{{$d['type']}}  ({{$d['contains'][0]['quantity']}}) | Disponibles: {{$d['contains'][0]['productCount']}}</h3>
+                <h3 class="card-title">{{ $d['type'][0]['name'] }} ({{ $d['contains'][0]['quantity'] }}) |
+                    Disponibles:
+                    {{ $d['contains'][0]['productCount'] }}</h3>
                 <div class="float-sm-right">
-                    <button class="btn btn-xs btn-info" data-toggle="collapse" data-target=".collapse{{$d['type']}}">Ver más</button>
+                    <button class="btn btn-xs btn-info" data-toggle="collapse"
+                        data-target=".collapse{{ $d['type'][0]['id'] }}">Ver más</button>
                 </div>
             </div>
 
-            <div class="card-body collapse{{$d['type']}} collapse out">
+            <div class="card-body collapse{{ $d['type'][0]['id'] }} collapse out">
                 <div class="row">
                     @foreach ($d['contains'] as $contain)
-                        
+
                         <div class="col-sm-6 col-md-6 col-lg-6 text-center">
                             <div class="card card-row card-default">
-                                
-                                <div class="card-header bg-primary">
-                                    <h3 class="card-title" style="font-size: 15px; height:25px;">
-                                        Valor: {{ $contain['value'] }}  /   
-                                       
-                                        Cantidad: {{$contain['quantity']}}  
 
-                                        @if(isset($contain['thematic']))
-                                            / Temática: {{ $contain['thematic'] }}  
-                                        @endif
-                                    </h3>
-                                </div>
-                                <div class="card-body" id="body_nuevos">
-                                    @foreach($d['contains'][0]['products'] as $product)
-                                        {{$product->name}}            ({{$product->stock}})
-                                        @if (File::exists($product->imageUrl))
-                                            <img src="{{ asset($product->imageUrl) }}" class="img-thumbnail"
+                                @if ($contain['productCount'] == 0)
+                                    <div class="card-header bg-danger">
+                                @elseif($contain['productCount'] == $contain['quantity'] )
+                                    <div class="card-header bg-warning">
+                                @else
+                                    <div class="card-header bg-primary">
+                                @endif
+
+                                <h3 class="card-title" style="font-size: 15px; height:25px;">
+                                    Valor: {{ $contain['value'] }} /
+
+                                    Cantidad: {{ $contain['quantity'] }}
+
+                                    @if (isset($contain['thematic']))
+                                        / Temática: {{ $contain['thematic'] }}
+                                    @endif
+                                </h3>
+                            </div>
+                            <div class="card-body" id="body_nuevos">
+                                @foreach ($contain['products'] as $p)
+
+                                    {{ $p->name }} ({{ $p->stock }})
+                                    @if (File::exists($p->imageUrl))
+                                        <img src="{{ asset($p->imageUrl) }}" class="img-thumbnail"
                                             style="object-fit: cover;width:50px;height:50px">
-                                        @else
-                                            <img src="{{ asset('images/not-found.png') }}" class="img-thumbnail"
+                                    @else
+                                        <img src="{{ asset('images/not-found.png') }}" class="img-thumbnail"
                                             style="object-fit: cover;width:50px;height:50px">
-                                        @endif
-                                        <br>
-                                    @endforeach
-                                </div>
+                                    @endif
+                                    <br>
+
+                                @endforeach
                             </div>
                         </div>
-
-                    @endforeach
                 </div>
-            </div>
 
-        </div>
+    @endforeach
+    </div>
+    </div>
+
+    </div>
     @endforeach
 
 
