@@ -65,14 +65,14 @@
 
         <div class="card-header" id="categoriaFijo">
             <div class="row">
-                <div class="col-4">
+                <div class="col-4 col-sm-6">
                     <h3 class="card-title">Productos Fijos</h3>
                 </div>
-                <div class="col-2">
+                <div class="col-2 col-sm-6">
                     <input type="hidden" id="contenerFijo" value="2"> &nbsp; &nbsp; &nbsp; 
                     Seleccionados: <input type="text"  style="width:50px" readonly id="seleccionadosFijo" value="0"></span>        
                 </div>
-                <div class="col-6 float-sm-right">
+                <div class="col-6 col-sm-6 float-sm-right">
                     <div class="float-sm-right">
                         <button class="btn btn-xs btn-info" data-toggle="collapse" data-target=".collapseFixed">Ver más</button>
                     </div>        
@@ -125,13 +125,13 @@
 
             <div class="card-header" id="categoria{{$d['type'][0]['id']}}">
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-2 col-sm-6 col-md-6 ">
                         <h3 class="card-title">{{ $d['type'][0]['name'] }} ({{ $elements }}) <h3>        
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 col-sm-6 col-md-6 ">
                         Disponibles: {{ $d['contains'][0]['productCount'] }}
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 col-sm-6 col-md-6 ">
                         <input type="hidden" id="contener{{$d['type'][0]['id']}}" value="{{ $elements }}"> &nbsp; &nbsp; &nbsp; 
                         Seleccionados: <input type="text"  style="width:50px" readonly id="seleccionados{{$d['type'][0]['id']}}" value="0"></span>        
                     </div>
