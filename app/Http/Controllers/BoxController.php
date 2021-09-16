@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Box;
 use App\Models\BoxConfiguration;
+use App\Models\EntryDetail;
+use App\Models\ExpiryControl;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\Thematic;
@@ -13,7 +15,8 @@ use Illuminate\Support\Facades\Auth;
 
 class BoxController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         // $this->middleware(function ($request, $next) {
         //     $userSession = Auth::user();
         //     if(!$this->checkRoleRoutePermission($userSession)){
@@ -27,14 +30,14 @@ class BoxController extends Controller
     {
         $objects = Box::orderBy('name')->paginate(20);
 
-        return view('boxes.index',compact('objects'));
+        return view('boxes.index', compact('objects'));
     }
 
 
     public function create()
     {
         $thematics = Thematic::orderBy('name')->get();
-        return view('boxes.create',compact('thematics'));
+        return view('boxes.create', compact('thematics'));
     }
 
     public function store(Request $request)
@@ -48,7 +51,7 @@ class BoxController extends Controller
         $object->name = $request->name;
         $object->price = $request->price;
 
-        if(isset($request->thematicId)){
+        if (isset($request->thematicId)) {
             $object->thematicId = $request->thematicId;
         }
 
@@ -56,14 +59,14 @@ class BoxController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension(); // getting image extension
-            $filename =time().'.'.$extension;
+            $filename = time() . '.' . $extension;
             $file->move('Uploads/images/', $filename);
-            $object->imageUrl = 'Uploads/images/'.$filename;
+            $object->imageUrl = 'Uploads/images/' . $filename;
         }
 
         $object->save();
 
-        return redirect('boxes')->with('success','Creado correctamente.');
+        return redirect('boxes')->with('success', 'Creado correctamente.');
     }
 
 
@@ -77,11 +80,11 @@ class BoxController extends Controller
     {
         $object = Box::findOrFail($id);
         $thematics = Thematic::orderBy('name')->get();
-        
-        return view('boxes.edit',compact('object', 'thematics'));
+
+        return view('boxes.edit', compact('object', 'thematics'));
     }
 
-    
+
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -96,31 +99,31 @@ class BoxController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension(); // getting image extension
-            $filename =time().'.'.$extension;
+            $filename = time() . '.' . $extension;
             $file->move('Uploads/images/', $filename);
-            $object->imageUrl = 'Uploads/images/'.$filename;
+            $object->imageUrl = 'Uploads/images/' . $filename;
         }
         $object->save();
 
-        return redirect('boxes')->with('success','Editado correctamente.');
+        return redirect('boxes')->with('success', 'Editado correctamente.');
     }
 
-   
+
     public function destroy($id)
     {
         Box::destroy($id);
-        return redirect('boxes')->with('success','Eliminado correctamente.');
+        return redirect('boxes')->with('success', 'Eliminado correctamente.');
     }
 
     public function configure($id)
     {
         $object = Box::findOrFail($id);
-        $thematics = Thematic::orderBy('name')->get();    
-        $types = ProductType::orderBy('name')->get();  
-        $products = Product::orderBy('name')->get();    
+        $thematics = Thematic::orderBy('name')->get();
+        $types = ProductType::orderBy('name')->get();
+        $products = Product::orderBy('name')->get();
         $contains = BoxConfiguration::where('boxId', $id)->orderByDesc('productId')->get();
 
-        return view('boxes.configure',compact('object', 'thematics', 'types', 'contains', 'products'));
+        return view('boxes.configure', compact('object', 'thematics', 'types', 'contains', 'products'));
     }
 
     public function configurePost(Request $request, $id)
@@ -128,15 +131,14 @@ class BoxController extends Controller
         $object = new BoxConfiguration();
         $object->boxId = $id;
 
-        if($request->configurationType == "variante"){
+        if ($request->configurationType == "variante") {
             $object->productTypeId = $request->productTypeId;
             $object->quantity = $request->quantity;
             $object->value = $request->value;
-            
-            if(isset($request->thematicId))
+
+            if (isset($request->thematicId))
                 $object->thematicId = $request->thematicId;
-        }
-        else{
+        } else {
             $Product = Product::find($request->productId);
             $object->productTypeId = $Product->productTypeId;
             $object->quantity = 1;
@@ -146,72 +148,121 @@ class BoxController extends Controller
 
         $object->save();
 
-        return redirect()->back()->with('success','Agregado correctamente.');
+        return redirect()->back()->with('success', 'Agregado correctamente.');
     }
 
-    public function configureDestroy($id){
+    public function configureDestroy($id)
+    {
         BoxConfiguration::destroy($id);
-        return redirect()->back()->with('success','Eliminado correctamente.');
+        return redirect()->back()->with('success', 'Eliminado correctamente.');
     }
 
-    public function building(){
+    public function building()
+    {
         $objects = Box::orderBy('name')->paginate(20);
-        return view('boxes.building',compact('objects'));
+        return view('boxes.building', compact('objects'));
     }
 
-    public function boxbuildingstep2($id){
-        $variablecontains = BoxConfiguration::where('boxId', $id)->whereNull('productId')->orderBy('productTypeId')->get();
-        $fixedcontains = BoxConfiguration::where('boxId', $id)->whereNotNull('productId')->get();
+    public function boxbuildingstep2($id)
+    {
+        $box = Box::find($id);
+        $variablecontains = BoxConfiguration::where('boxId', $id)->whereNull('productId')->orderBy('productTypeId')->with('product', 'entriesDetails')->get();
+        $fixedcontainsarray = BoxConfiguration::where('boxId', $id)->whereNotNull('productId')->orderBy('productTypeId')->with('product')->get();
+
+        $fixedcontains = [];
+
+        // dd($fixedcontainsarray[0]->product->entriesDetails);
+
+        foreach ($fixedcontainsarray as $fixed) { 
+                $fixedcontains[$fixed->id] = [
+                    "name" => $fixed->product->name,
+                    "id" => $fixed->product->id, 
+                    "imageUrl" => $fixed->product->imageUrl,
+                    "price" => $fixed->product->entriesDetails->last()->unitPrice + ($fixed->product->entriesDetails->last()->shipCost / $fixed->product->entriesDetails->last()->quantity)
+                ];
+        }
+
 
         $data = [];
         $previousTypeId = 0;
 
-        foreach($variablecontains as $variable){
- 
+        foreach ($variablecontains as $variable) {
+
             $products = null;
 
-            $products = Product::where('stock','>', 0)
-                                ->where('value', $variable->value)
-                                ->where('productTypeId',$variable->productTypeId);                            
-            
+            $products = Product::where('stock', '>', 0)
+                ->where('value', $variable->value)
+                ->where('productTypeId', $variable->productTypeId)
+                ->with('entriesDetails', 'expiryControl');
 
-            if(isset($variable->thematic))
-                 $products->where('thematicId', $variable->thematicId);
-                        
+
+            if (isset($variable->thematic))
+                $products->where('thematicId', $variable->thematicId);
+
             $products = $products->get();
 
-            if($variable->productTypeId != $previousTypeId){
-                $data[$variable->productTypeId]['type'][] = ["name" => $variable->type->name, 
-                                                             "id" => $variable->id];
+
+            if ($products->count() > 0) {
+
+                foreach ($products as $product) {
+                    if ($product->expiryDate == 1) 
+                    {
+                        $expiryDate = $product->expiryControl->min('date');
+
+                        if ($expiryDate != null) 
+                        {
+                            $product->expiryDate = $expiryDate;
+                            $product->price = $product->entriesDetails->last()->unitPrice + ($product->entriesDetails->last()->shipCost / $product->entriesDetails->last()->quantity);
+                        } else 
+                        {
+                            $product->price = $product->entriesDetails[0]->max('unitPrice');
+                        }
+                    } 
+                    else 
+                    {
+
+                        $product->price = $product->entriesDetails[0]->max('unitPrice');
+                    }
+                }
+            }
+
+                // dd($products[0]->entriesDetails);
+
+
+            if ($variable->productTypeId != $previousTypeId) {
+                $data[$variable->productTypeId]['type'][] = [
+                    "name" => $variable->type->name,
+                    "id" => $variable->id
+                ];
 
                 $data[$variable->productTypeId]['contains'][] = [
-                                                        'type'     => $variable->type->name,
-                                                        'quantity' => $variable->quantity,
-                                                        'value' => $variable->value,
-                                                        'thematic' => $variable->thematic? $variable->thematic->name : null,
-                                                        'products' => json_decode($products) ,
-                                                        'productCount' => $products->sum('stock')  
-                                                    ];
-            }
-            else{
-                
+                    'type'     => $variable->type->name,
+                    'quantity' => $variable->quantity,
+                    'value' => $variable->value,
+                    'thematic' => $variable->thematic ? $variable->thematic->name : null,
+                    'products' => json_decode($products),
+                    'productCount' => $products->sum('stock')
+                ];
+            } else {
+
                 $data[$variable->productTypeId]['contains'][] = [
-                                                        'type'     => $variable->type->name,
-                                                        'quantity' => $variable->quantity,
-                                                        'value' => $variable->value,
-                                                        'thematic' => $variable->thematic? $variable->thematic->name : null,
-                                                        'products' => json_decode($products) ,
-                                                        'productCount' => $products->sum('stock')  
-                                                    ];
+                    'type'     => $variable->type->name,
+                    'quantity' => $variable->quantity,
+                    'value' => $variable->value,
+                    'thematic' => $variable->thematic ? $variable->thematic->name : null,
+                    'products' => json_decode($products),
+                    'productCount' => $products->sum('stock')
+                ];
             }
 
             $previousTypeId = $variable->productTypeId;
-
         }
 
-        //dd($data);
-        return view('boxes.buildingstep2',compact('data', 'fixedcontains'));
+       // dd($data);
+        return view('boxes.buildingstep2', compact('data', 'fixedcontains', 'box'));
+        
     }
 
-   
+
 }
+

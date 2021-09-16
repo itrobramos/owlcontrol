@@ -18,7 +18,7 @@
 
     
     <div class="card-body">
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered table-responsive-sm">
             <thead>
               <tr>
                 <th>Nombre</th>

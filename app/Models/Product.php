@@ -17,4 +17,12 @@ class Product extends Model
         return $this->belongsTo(ProductType::class,'productTypeId','id');
     }
    
+    public function entriesDetails(){
+        return $this->hasMany(EntryDetail::class,'productId','id');
+    }
+
+    public function expiryControl(){
+        return $this->hasMany(ExpiryControl::class,'productId','id');
+    }
+
 }

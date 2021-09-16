@@ -20,4 +20,8 @@ class BoxConfiguration extends Model
     public function product(){
         return $this->belongsTo(Product::class,'productId','id');
     }
+
+    public function entriesDetails(){
+        return $this->hasMany(EntryDetail::class,'productId','id');
+    }
 }
