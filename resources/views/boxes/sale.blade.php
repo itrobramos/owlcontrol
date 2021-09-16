@@ -75,7 +75,7 @@
                         </div>
 
                         <div class="tab-pane" id="client">
-                            <form action="{{ route('boxes.store') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('boxes.clientStore' ,['id'=>$object->id ]) }}" method="post" enctype="multipart/form-data">
 
                                 <h4>Datos generales</h4>
                                 <div class="row">
@@ -96,7 +96,7 @@
 
                                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                         <label for="exampleInputEmail1">Origen de la venta</label>
-                                        <select id="cmbExpenseType" class="form-control">
+                                        <select id="cmbExpenseType" class="form-control" name="origin">
                                             <option value="">Seleccione</option>
                                             @foreach ($saleOrigins as $origin)
                                                 <option value="{{ $origin->id }}">{{ $origin->name }}</option>
@@ -153,12 +153,12 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                         <label for="exampleInputEmail1">FB</label>
-                                        <input name="phone" class="form-control" value="">
+                                        <input name="fb" class="form-control" value="">
                                     </div>
 
                                     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                         <label for="exampleInputEmail1">Instagram</label>
-                                        <input name="email" class="form-control" value="">
+                                        <input name="instagram" class="form-control" value="">
                                     </div>
                                 </div>
 
@@ -166,7 +166,7 @@
                                 <h4>Envío</h4>
                                 <div class="row">
                                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                                        <textarea class="form-control"></textarea>
+                                        <textarea name="delivery"class="form-control"></textarea>
                                     </div>
                                 </div>
 
@@ -174,10 +174,13 @@
                                 <h4>Comentarios</h4>
                                 <div class="row">
                                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                                        <textarea class="form-control"></textarea>
+                                        <textarea name="comments" class="form-control"></textarea>
                                     </div>
                                 </div>
 
+                                <br>
+
+                                <button type="submit" class="btn btn-success">Guardar Cliente</button>
                             </form>
                         </div>
 

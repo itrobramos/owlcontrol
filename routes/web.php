@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/boxes/configure/{id}','BoxController@configurePost')->name('boxes.configurepost');
     Route::delete('/boxes/configure/destroy/{id}','BoxController@configureDestroy')->name('boxes.configuredestroy');
     Route::get('/boxes/sale/{id}','BoxController@sale')->name('boxes.sale');
+    Route::post('/boxes/sale/client/{id}','BoxController@clientStore')->name('boxes.clientStore');
 
     
     Route::get('box_types','BoxTypeController@index')->name('box_types.index');

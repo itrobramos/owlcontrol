@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Box;
 use App\Models\BoxConfiguration;
+use App\Models\Client;
 use App\Models\EntryDetail;
 use App\Models\ExpiryControl;
 use App\Models\FilledBox;
@@ -11,6 +12,7 @@ use App\Models\FilledBoxDetail;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\Thematic;
+use App\Models\Sale;
 use App\Models\SaleExpenseType;
 use App\Models\SaleOrigin;
 use Illuminate\Http\Request;
@@ -177,13 +179,13 @@ class BoxController extends Controller
 
         // dd($fixedcontainsarray[0]->product->entriesDetails);
 
-        foreach ($fixedcontainsarray as $fixed) { 
-                $fixedcontains[$fixed->id] = [
-                    "name" => $fixed->product->name,
-                    "id" => $fixed->product->id, 
-                    "imageUrl" => $fixed->product->imageUrl,
-                    "price" => $fixed->product->entriesDetails->last()->unitPrice + ($fixed->product->entriesDetails->last()->shipCost / $fixed->product->entriesDetails->last()->quantity)
-                ];
+        foreach ($fixedcontainsarray as $fixed) {
+            $fixedcontains[$fixed->id] = [
+                "name" => $fixed->product->name,
+                "id" => $fixed->product->id,
+                "imageUrl" => $fixed->product->imageUrl,
+                "price" => $fixed->product->entriesDetails->last()->unitPrice + ($fixed->product->entriesDetails->last()->shipCost / $fixed->product->entriesDetails->last()->quantity)
+            ];
         }
 
 
@@ -209,28 +211,23 @@ class BoxController extends Controller
             if ($products->count() > 0) {
 
                 foreach ($products as $product) {
-                    if ($product->expiryDate == 1) 
-                    {
+                    if ($product->expiryDate == 1) {
                         $expiryDate = $product->expiryControl->where('date', $product->expiryControl->min('date'))->first();
 
-                        if ($expiryDate != null) 
-                        {
+                        if ($expiryDate != null) {
                             $product->expiryDate = $expiryDate->date;
                             $product->price = $expiryDate->price;
-                        } else 
-                        {
+                        } else {
                             $product->price = $product->entriesDetails[0]->max('unitPrice');
                         }
-                    } 
-                    else 
-                    {
+                    } else {
 
                         $product->price = $product->entriesDetails[0]->max('unitPrice');
                     }
                 }
             }
 
-                // dd($products[0]->entriesDetails);
+            // dd($products[0]->entriesDetails);
 
 
             if ($variable->productTypeId != $previousTypeId) {
@@ -262,12 +259,12 @@ class BoxController extends Controller
             $previousTypeId = $variable->productTypeId;
         }
 
-       // dd($data);
+        // dd($data);
         return view('boxes.buildingstep2', compact('data', 'fixedcontains', 'box'));
-        
     }
 
-    public function saveBuild(Request $request){
+    public function saveBuild(Request $request)
+    {
 
         $userSession = Auth::user();
         $total = 0;
@@ -278,11 +275,11 @@ class BoxController extends Controller
         $FilledBox->money = 0;
         $FilledBox->save();
 
-        foreach($request->item as $item){
+        foreach ($request->item as $item) {
             $FilledBoxDetail = new FilledBoxDetail();
             $FilledBoxDetail->filledBoxId = $FilledBox->id;
             $FilledBoxDetail->productId = $item['id'];
-            $FilledBoxDetail->price= $item['price'];
+            $FilledBoxDetail->price = $item['price'];
             $FilledBoxDetail->save();
 
             $total = $total + $FilledBoxDetail->price;
@@ -294,17 +291,101 @@ class BoxController extends Controller
         return redirect('boxes')->with('success', 'Armada correctamente.');
     }
 
-    public function builtboxes(){
-        $objects = FilledBox::orderBy('created_at')->paginate(20);
+    public function builtboxes()
+    {
+        $objects = FilledBox::where('sold', false)->orderBy('created_at')->paginate(20);
         return view('boxes.builtboxesindex', compact('objects'));
     }
 
-    public function sale($id){
+    public function sale($id)
+    {
         $object = FilledBox::findOrFail($id);
         $expensesTypes = SaleExpenseType::orderBy('name')->get();
         $saleOrigins = SaleOrigin::orderBy('name')->get();
 
         return view('boxes.sale', compact('object', 'expensesTypes', 'saleOrigins'));
-    } 
-}
+    }
 
+    public function clientStore(Request $request, $id)
+    {
+        \DB::beginTransaction();
+        try {
+            //Guardado del cliente
+            $userSession = Auth::user();
+            $Client = new Client();
+            $Client->name = $request->name;
+
+            if (isset($request->lastName))
+                $Client->lastName = $request->lastName;
+
+            if (isset($request->fb))
+                $Client->fb = $request->fb;
+
+            if (isset($request->instagram))
+                $Client->instagram = $request->instagram;
+
+            if (isset($request->phone))
+                $Client->phone = $request->phone;
+
+            if (isset($request->email))
+                $Client->email = $request->email;
+
+            $Client->save();
+            echo 'Cliente creado';
+
+            //Guardado de la venta
+            $Sale = new Sale();
+
+            $Sale->date = $request->date;
+            $Sale->price = $request->price;
+            $Sale->saleOriginId = $request->origin;
+
+            if (isset($request->comments))
+                $Sale->comments = $request->comments;
+
+            if (isset($request->delivery))
+                $Sale->delivery = $request->delivery;
+
+            $Sale->userId = $userSession->id;
+            $Sale->filledBoxId = $id;
+            $Sale->save();
+
+            echo 'Venta creada';
+            //Rebajo de inventario
+
+            $contains = FilledBoxDetail::where('filledBoxId', $id)->get();
+
+            foreach($contains as $contain){
+
+                $Product = Product::find($contain->productId);
+                $Product->stock = $Product->stock - 1;
+
+                if($Product->expiryDate == 1){
+                    $expiryDate = $Product->expiryControl->where('date', $Product->expiryControl->min('date'))->first();
+
+                    if ($expiryDate != null) {
+                        $minDate =  $Product->expiryControl->min('date');
+                        $expiryControl = $Product->expiryControl->where('date', $minDate)->where('available', 1)->where('productId', $Product->id)->first();
+                        $expiryControl->available = false;
+                        $expiryControl->save();
+                    }
+                }
+            }
+
+            //Se marca como vendida la caja armada
+            $FilledBox = FilledBox::find($id);
+            $FilledBox->sold = true;
+            $FilledBox->save();
+
+            DB::commit();
+            return redirect('builtboxes')->with('success','Venta registrada correctamente.');
+        } 
+        catch (\Throwable $th) 
+        {
+            dd($th);
+            \DB::rollback();
+            return redirect('builtboxes')->with('warning', 'Error al crear la venta.');
+
+        }
+    }
+}
