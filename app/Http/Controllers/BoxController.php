@@ -6,9 +6,13 @@ use App\Models\Box;
 use App\Models\BoxConfiguration;
 use App\Models\EntryDetail;
 use App\Models\ExpiryControl;
+use App\Models\FilledBox;
+use App\Models\FilledBoxDetail;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\Thematic;
+use App\Models\SaleExpenseType;
+use App\Models\SaleOrigin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -207,12 +211,12 @@ class BoxController extends Controller
                 foreach ($products as $product) {
                     if ($product->expiryDate == 1) 
                     {
-                        $expiryDate = $product->expiryControl->min('date');
+                        $expiryDate = $product->expiryControl->where('date', $product->expiryControl->min('date'))->first();
 
                         if ($expiryDate != null) 
                         {
-                            $product->expiryDate = $expiryDate;
-                            $product->price = $product->entriesDetails->last()->unitPrice + ($product->entriesDetails->last()->shipCost / $product->entriesDetails->last()->quantity);
+                            $product->expiryDate = $expiryDate->date;
+                            $product->price = $expiryDate->price;
                         } else 
                         {
                             $product->price = $product->entriesDetails[0]->max('unitPrice');
@@ -263,6 +267,44 @@ class BoxController extends Controller
         
     }
 
+    public function saveBuild(Request $request){
 
+        $userSession = Auth::user();
+        $total = 0;
+
+        $FilledBox = new FilledBox();
+        $FilledBox->userId = $userSession->id;
+        $FilledBox->name = $request->name;
+        $FilledBox->money = 0;
+        $FilledBox->save();
+
+        foreach($request->item as $item){
+            $FilledBoxDetail = new FilledBoxDetail();
+            $FilledBoxDetail->filledBoxId = $FilledBox->id;
+            $FilledBoxDetail->productId = $item['id'];
+            $FilledBoxDetail->price= $item['price'];
+            $FilledBoxDetail->save();
+
+            $total = $total + $FilledBoxDetail->price;
+        }
+
+        $FilledBox->money = $total;
+        $FilledBox->save();
+
+        return redirect('boxes')->with('success', 'Armada correctamente.');
+    }
+
+    public function builtboxes(){
+        $objects = FilledBox::orderBy('created_at')->paginate(20);
+        return view('boxes.builtboxesindex', compact('objects'));
+    }
+
+    public function sale($id){
+        $object = FilledBox::findOrFail($id);
+        $expensesTypes = SaleExpenseType::orderBy('name')->get();
+        $saleOrigins = SaleOrigin::orderBy('name')->get();
+
+        return view('boxes.sale', compact('object', 'expensesTypes', 'saleOrigins'));
+    } 
 }
 

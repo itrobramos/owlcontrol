@@ -29,6 +29,7 @@
 
                         <th>Restan</th>
                         <th>Fecha Vigencia</th>
+                        <th>Precio</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -52,6 +53,7 @@
                             {{ round($days / 86400) }} días
                         </td>
                         <td>{{ $control->date }}</td>
+                        <td>$ {{$control->price}}</td>
                         <td>
                             <a class="btn btn-primary btn-sm button-destroy"
                                 href="{{ route('products.sold', ['id' => $control->id]) }}"

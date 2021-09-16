@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/boxes/configure/{id}','BoxController@configure')->name('boxes.configure');
     Route::post('/boxes/configure/{id}','BoxController@configurePost')->name('boxes.configurepost');
     Route::delete('/boxes/configure/destroy/{id}','BoxController@configureDestroy')->name('boxes.configuredestroy');
+    Route::get('/boxes/sale/{id}','BoxController@sale')->name('boxes.sale');
 
     
     Route::get('box_types','BoxTypeController@index')->name('box_types.index');
@@ -104,6 +105,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('boxbuilding', 'BoxController@building')->name('boxbuilding');
     Route::get('boxbuildingstep2/{id}', 'BoxController@boxbuildingstep2')->name('boxbuildingstep2');
+    Route::post('boxbuildings/saveBuild', 'BoxController@saveBuild')->name('boxbuildingsave');
+    Route::get('builtboxes', 'BoxController@builtboxes')->name('builtboxes');
 
     ///Reportes
 

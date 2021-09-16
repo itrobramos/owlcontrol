@@ -13,6 +13,15 @@
 
     <br>
 
+    <form action="{{ route('boxbuildingsave') }}" method="post">
+
+    <div class="row">
+        <div class="col-6"> 
+            Nombre:
+            <input type="text" name="name" class="form-control" required>
+        </div>
+    </div>
+    <br>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -57,7 +66,10 @@
         </div>
     </div>
 
-    <button class="btn btn-success">Guardar Caja</button>
+    <button class="btn btn-success" type="submit">Guardar Caja</button>
+
+    </form>
+
 
     <br><br>
 
@@ -275,8 +287,8 @@
             var html = `
                 <tr id="${i}" class="bg-light color-palette">
                     <td>${category}</td>                
-                    <td>${name}</td>
-                    <td>$ ${price}</td>
+                    <td>${name}<input type="hidden" name="item[${i}][id]" value="${id}"></td>
+                    <td>$ ${price}<input type="hidden" name="item[${i}][price]" value="${price}"></td>
                     <td><button data-repeater-delete="" onclick="deletetemplate(${i}, ${price}, '${categoryid}')"
                             class="btn-md btn btn-danger m-btn m-btn--icon m-btn--pill">
                             <span>

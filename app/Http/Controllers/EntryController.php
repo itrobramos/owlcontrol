@@ -116,6 +116,7 @@ class EntryController extends Controller
                                 $ExpiryControl->entryId = $object->id;
                                 $ExpiryControl->date = $expiry['date']; 
                                 $ExpiryControl->available = true;
+                                $ExpiryControl->price = $EntryDetail->unitPrice;
                                 $ExpiryControl->save();
                             }
                         }
