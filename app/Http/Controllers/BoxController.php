@@ -17,7 +17,7 @@ use App\Models\SaleExpenseType;
 use App\Models\SaleOrigin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use DB;
 
 class BoxController extends Controller
 {
