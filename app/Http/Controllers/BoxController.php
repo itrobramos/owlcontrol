@@ -197,7 +197,7 @@ class BoxController extends Controller
             $products = null;
 
             $products = Product::where('stock', '>', 0)
-                ->where('value', $variable->value)
+                ->where('value', '>=', $variable->value)
                 ->where('productTypeId', $variable->productTypeId)
                 ->with('entriesDetails', 'expiryControl');
 
